@@ -123,6 +123,8 @@ function start() {
   }
   // set onChangeListener on workspace
   workspace.addChangeListener(workspaceOnChangeListener);
+  // KAIROS-specific init
+  kairos_init();
 }
 
 function addToolboxButtonCallbacks() {
@@ -438,6 +440,8 @@ function logger(e) {
       <input type="checkbox" onclick="logEvents(this.checked)" id="logCheck">
     </li>
   </ul>
+
+  <div id="typeCheckVars"></div>
 
 
   <!-- The next three blocks of XML are sample toolboxes for testing basic

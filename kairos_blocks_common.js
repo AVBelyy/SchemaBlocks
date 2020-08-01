@@ -32,6 +32,30 @@ goog.require('Blockly.Blocks');
 
 Blockly.defineBlocksWithJsonArray([
     {
+        "type": "kairos_control_schema",
+        "message0": "schema %1",
+        "args0": [{
+            "type": "input_value",
+            "name": "NAME"
+        }],
+        "message1": "do %1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "message2": "%1",
+        "args2": [{
+            "type": "input_value",
+            "name": "TC0",
+            "check": "kairos_control_type_constraint",
+        }],
+        "inputsInline": false,
+        "style": "math_blocks",
+    },
+]);
+
+Blockly.defineBlocksWithJsonArray([
+    {
         "type": "kairos_control_parallel",
         "message0": "in any order",
         "message1": "do %1",
@@ -45,6 +69,30 @@ Blockly.defineBlocksWithJsonArray([
         "extensions": [
         ]
     },
+]);
+
+Blockly.defineBlocksWithJsonArray([
+    {
+        "type": "kairos_control_type_constraint",
+        "message0": "constrain %1 to types %2 and reference %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR"
+            },
+            {
+                "type": "field_input",
+                "name": "TYPES"
+            },
+            {
+                "type": "field_input",
+                "name": "REF"
+            }
+        ],
+        "inputsInline": true,
+        "output": "kairos_control_type_constraint",
+        "style": "text_blocks",
+    }
 ]);
 
 // Extensions
@@ -142,6 +190,7 @@ function typecheck(ws) {
         vars_types[var_id] = slots2types(vars_slots[var_id]);
     }
 
+    var typeCheckVarDescr = [];
     for (var i = 0; i < blocks.length; i++) {
         var block = blocks[i];
         if (block.type === "variables_get") {
@@ -151,14 +200,66 @@ function typecheck(ws) {
                     block.setEnabled(false);
                     block.setTooltip('This variable has contradicting types from the slots it is used in.');
                 } else {
+                    var variable = workspace.getVariableById(var_id);
+                    var types = Array.from(vars_types[var_id]);
+                    types.sort();
+                    typeCheckVarDescr.push([variable.name, types]);
                     block.setEnabled(true);
                     block.setTooltip(Blockly.Msg['VARIABLES_GET_TOOLTIP']);
                 }
             }
         }
     }
+    var typeCheckVarDescrHTML = "";
+    typeCheckVarDescr.sort();
+    var prev_var_name = null;
+    for (var i = 0; i < typeCheckVarDescr.length; i++) {
+        if (typeCheckVarDescr[i][0] === prev_var_name) {
+            continue;
+        }
+        var onclick_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
+        typeCheckVarDescrHTML += "<a style='cursor: pointer' onclick='" + onclick_handler + "'><b>" + typeCheckVarDescr[i][0] + "</b></a> : " + typeCheckVarDescr[i][1].join(", ") + "<br>";
+        prev_var_name = typeCheckVarDescr[i][0];
+    }
+    document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
+}
 
-    console.log(vars_types);
+function addConstraint(var_name, var_types) {
+    var schema_block = workspace.getBlockById('kairos_schema');
+    var first_free_tc = 0;
+    while (workspace.getBlockById('kairos_schema_TC' + first_free_tc) !== null) {
+        first_free_tc++;
+    }
+    var num_available_tc = 0;
+    while (schema_block.getInput('TC' + num_available_tc) !== null) {
+        var potential_input = workspace.getBlockById('kairos_schema_TC' + num_available_tc);
+        if (potential_input !== null) {
+            var var_id = potential_input.getFieldValue('VAR');
+            if (var_id !== null) {
+                var variable = workspace.getVariableById(var_id);
+                if (variable.name === var_name) {
+                    return;
+                }
+            }
+        }
+        num_available_tc++;
+    }
+    num_available_tc--;
+
+    var schema_block_connection = schema_block.getInput('TC' + first_free_tc).connection;
+    var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint' id='kairos_schema_TC" + first_free_tc + "' movable='false'>" +
+        "<field name=\"VAR\">" + var_name + "</field>" +
+        "<field name=\"TYPES\">" + var_types + "</field>" +
+        "<field name=\"REF\"></field></block></xml>";
+    var dom = Blockly.Xml.textToDom(schema_xml);
+    var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+    var block = workspace.getBlockById(new_block_id);
+
+    schema_block_connection.connect(block.outputConnection);
+
+    if (first_free_tc === num_available_tc) {
+        schema_block.appendValueInput('TC' + (first_free_tc + 1));
+    }
 }
 
 function setTypecheck(new_typecheck_value) {
@@ -172,4 +273,14 @@ function workspaceOnChangeListener(e) {
     if (is_enabled_typecheck) {
         typecheck(workspace);
     }
+}
+
+function kairos_init() {
+    var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
+        "<value name=\"NAME\"><shadow type=\"text\"><field name=\"TEXT\">TestSchema001</field></shadow></value>\n" +
+        "</block></xml>";
+    var dom = Blockly.Xml.textToDom(schema_xml);
+    var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+    var block = workspace.getBlockById(new_block_id);
+    block.moveBy(50, 50);
 }
