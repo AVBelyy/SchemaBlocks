@@ -38,16 +38,16 @@ Blockly.defineBlocksWithJsonArray([
             "type": "input_value",
             "name": "NAME"
         }],
-        "message1": "do %1",
+        "message1": "opts %1",
         "args1": [{
             "type": "input_statement",
-            "name": "DO"
-        }],
-        "message2": "%1",
-        "args2": [{
-            "type": "input_value",
-            "name": "TC0",
+            "name": "TC",
             "check": "kairos_control_type_constraint",
+        }],
+        "message2": "do %1",
+        "args2": [{
+            "type": "input_statement",
+            "name": "DO",
         }],
         "inputsInline": false,
         "style": "math_blocks",
@@ -90,7 +90,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "inputsInline": true,
-        "output": "kairos_control_type_constraint",
+        "previousStatement": ["kairos_control_type_constraint"],
+        "nextStatement": ["kairos_control_type_constraint"],
         "style": "text_blocks",
     }
 ]);
@@ -226,39 +227,41 @@ function typecheck(ws) {
 
 function addConstraint(var_name, var_types) {
     var schema_block = workspace.getBlockById('kairos_schema');
-    var first_free_tc = 0;
-    while (workspace.getBlockById('kairos_schema_TC' + first_free_tc) !== null) {
-        first_free_tc++;
-    }
-    var num_available_tc = 0;
-    while (schema_block.getInput('TC' + num_available_tc) !== null) {
-        var potential_input = workspace.getBlockById('kairos_schema_TC' + num_available_tc);
-        if (potential_input !== null) {
-            var var_id = potential_input.getFieldValue('VAR');
-            if (var_id !== null) {
-                var variable = workspace.getVariableById(var_id);
-                if (variable.name === var_name) {
-                    return;
-                }
+
+    var tc_var_set = new Set();
+    var tc_root = schema_block;
+    var flag = true;
+    while (flag) {
+        flag = false;
+        var tc_children = tc_root.getChildren(false);
+        for (var i = 0; i < tc_children.length; i++) {
+            var tc_child = tc_children[i];
+            if (tc_child.type === 'kairos_control_type_constraint') {
+                tc_var_set.add(tc_child.getFieldValue('VAR'));
+                tc_root = tc_child;
+                flag = true;
+                break;
             }
         }
-        num_available_tc++;
     }
-    num_available_tc--;
 
-    var schema_block_connection = schema_block.getInput('TC' + first_free_tc).connection;
-    var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint' id='kairos_schema_TC" + first_free_tc + "' movable='false'>" +
+    var tc_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint' movable='false'>" +
         "<field name=\"VAR\">" + var_name + "</field>" +
         "<field name=\"TYPES\">" + var_types + "</field>" +
         "<field name=\"REF\"></field></block></xml>";
-    var dom = Blockly.Xml.textToDom(schema_xml);
+    var dom = Blockly.Xml.textToDom(tc_xml);
     var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
     var block = workspace.getBlockById(new_block_id);
-
-    schema_block_connection.connect(block.outputConnection);
-
-    if (first_free_tc === num_available_tc) {
-        schema_block.appendValueInput('TC' + (first_free_tc + 1));
+    if (tc_var_set.has(block.getFieldValue('VAR'))) {
+        block.dispose(true);
+    } else {
+        var tc_last_connection;
+        if (tc_root === schema_block) {
+            tc_last_connection = schema_block.getInput('TC').connection;
+        } else {
+            tc_last_connection = tc_root.nextConnection;
+        }
+        tc_last_connection.connect(block.previousConnection);
     }
 }
 

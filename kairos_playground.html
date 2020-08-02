@@ -290,6 +290,11 @@ function fromXml() {
   if (!input.value) {
     return;
   }
+  // There can only be one schema -- delete the current one
+  var cur_schema_block = workspace.getBlockById('kairos_schema');
+  if (cur_schema_block) {
+    cur_schema_block.dispose(true);
+  }
   var xml = Blockly.Xml.textToDom(input.value);
   Blockly.Xml.domToWorkspace(xml, workspace);
   taChange();
