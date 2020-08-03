@@ -36,9 +36,8 @@ Blockly.defineBlocksWithJsonArray([
         "type": "kairos_control_schema",
         "message0": "schema %1",
         "args0": [{
-            "type": "input_value",
+            "type": "field_input",
             "name": "NAME",
-            "check": "String"
         }],
         "message1": "do %1",
         "args1": [{
@@ -259,8 +258,9 @@ function typecheck(ws) {
         if (typeCheckVarDescr[i][0] === prev_var_name) {
             continue;
         }
-        var onclick_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
-        typeCheckVarDescrHTML += "<a style='cursor: pointer' onclick='" + onclick_handler + "'><b>" + typeCheckVarDescr[i][0] + "</b></a> : " + typeCheckVarDescr[i][1].join(", ") + "<br>";
+        var inst_handler = "instantiateVar(\"" + typeCheckVarDescr[i][0] + "\")";
+        var add_cons_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
+        typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + typeCheckVarDescr[i][1].join(", ") + "<br>";
         prev_var_name = typeCheckVarDescr[i][0];
     }
     document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
@@ -314,9 +314,21 @@ function workspaceOnChangeListener(e) {
     }
 }
 
+function createVariable(button) {
+    Blockly.Variables.promptName('Enter variable name:', '', function(var_name) {
+        var xml = '<block type="variables_get"><field name="VAR" variabletype="kairos_var">' + var_name + '</field></block>';
+        xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
+        var dom = Blockly.Xml.textToDom(xml);
+        var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+        var block = workspace.getBlockById(new_block_id);
+        block.moveBy(Math.random() * 450 + 45, Math.random() * 450 + 40);
+        Blockly.hideChaff();
+    })
+}
+
 function kairos_init() {
     var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
-        "<value name=\"NAME\"><shadow type=\"text\"><field name=\"TEXT\">TestSchema001</field></shadow></value>\n" +
+        "<field name=\"NAME\">TestSchema001</field>\n" +
         "</block></xml>";
     var dom = Blockly.Xml.textToDom(schema_xml);
     var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
