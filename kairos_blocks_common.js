@@ -29,6 +29,7 @@ goog.provide('Blockly.Constants.Kairos');
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
 
+var events_connections = Object.keys(events_args).concat(["kairos_control_parallel"]);
 
 Blockly.defineBlocksWithJsonArray([
     {
@@ -63,8 +64,8 @@ Blockly.defineBlocksWithJsonArray([
             "type": "input_statement",
             "name": "DO"
         }],
-        "previousStatement": null,
-        "nextStatement": null,
+        "previousStatement": events_connections,
+        "nextStatement": events_connections,
         "style": "list_blocks",
         "extensions": [
         ]
@@ -171,18 +172,19 @@ function typecheck(ws) {
             var event_name_and_part_id_str = block.type.substr('kairos_event_'.length);
             var event_name_and_part_id = event_name_and_part_id_str.split('_part_');
             var event_name = event_name_and_part_id[0], part_id = parseInt(event_name_and_part_id[1]);
-            var children = block.getChildren(true);
-            for (var part_offset = 0; part_offset < children.length; part_offset++) {
-                var child = children[part_offset];
-                console.assert(child.type === "variables_get");
-                var var_id = child.getFieldValue('VAR');
-                // compute arg_id
-                var arg_id = events_parts_args[event_name][part_id][part_offset];
-                if (!(var_id in vars_slots)) {
-                    vars_slots[var_id] = new Set();
+            var args_ids = events_parts_args[event_name][part_id];
+            for (var j = 0; j < args_ids.length; j++) {
+                var arg_id = args_ids[j];
+                var arg_name = events_args[event_name][arg_id][0];
+                var arg_block = block.getInput(arg_name).connection.targetBlock();
+                if (arg_block) {
+                    var var_id = arg_block.getFieldValue('VAR');
+                    if (!(var_id in vars_slots)) {
+                        vars_slots[var_id] = new Set();
+                    }
+                    var event_name_and_arg_id = event_name + "_arg_" + arg_id.toString();
+                    vars_slots[var_id].add(event_name_and_arg_id);
                 }
-                var event_name_and_arg_id = event_name + "_arg_" + arg_id.toString();
-                vars_slots[var_id].add(event_name_and_arg_id);
             }
         }
     }
