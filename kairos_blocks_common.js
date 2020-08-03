@@ -39,16 +39,16 @@ Blockly.defineBlocksWithJsonArray([
             "type": "input_value",
             "name": "NAME"
         }],
-        "message1": "opts %1",
+        "message1": "do %1",
         "args1": [{
+            "type": "input_statement",
+            "name": "DO",
+        }],
+        "message2": "opts %1",
+        "args2": [{
             "type": "input_statement",
             "name": "TC",
             "check": "kairos_control_type_constraint",
-        }],
-        "message2": "do %1",
-        "args2": [{
-            "type": "input_statement",
-            "name": "DO",
         }],
         "inputsInline": false,
         "style": "math_blocks",
@@ -257,13 +257,8 @@ function addConstraint(var_name, var_types) {
     if (tc_var_set.has(block.getFieldValue('VAR'))) {
         block.dispose(true);
     } else {
-        var tc_last_connection;
-        if (tc_root === schema_block) {
-            tc_last_connection = schema_block.getInput('TC').connection;
-        } else {
-            tc_last_connection = tc_root.nextConnection;
-        }
-        tc_last_connection.connect(block.previousConnection);
+        var tc_connection = schema_block.getInput('TC').connection;
+        tc_connection.connect(block.previousConnection);
     }
 }
 
