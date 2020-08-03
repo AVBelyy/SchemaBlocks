@@ -37,7 +37,8 @@ Blockly.defineBlocksWithJsonArray([
         "message0": "schema %1",
         "args0": [{
             "type": "input_value",
-            "name": "NAME"
+            "name": "NAME",
+            "check": "String"
         }],
         "message1": "do %1",
         "args1": [{
@@ -71,6 +72,21 @@ Blockly.defineBlocksWithJsonArray([
         ]
     },
 ]);
+
+var multivar_msg = "%1";
+var multivar_args = [{"type": "input_value", "name": "VAR1", "check": ["variables_get", "kairos_multivar"]}];
+for (var i = 2; i <= 5; i++) {
+    multivar_msg += ", %" + i;
+    multivar_args.push({"type": "input_value", "name": "VAR" + i, "check": ["variables_get", "kairos_multivar"]});
+    Blockly.defineBlocksWithJsonArray([{
+      "type": "kairos_control_multivar_" + i,
+      "message0": JSON.parse(JSON.stringify(multivar_msg)), // make a deep copy
+      "args0": JSON.parse(JSON.stringify(multivar_args)), // make a deep copy
+      "inputsInline": true,
+      "style": "variable_blocks",
+      "output": "kairos_multivar"
+    }]);
+}
 
 Blockly.defineBlocksWithJsonArray([
     {
@@ -164,6 +180,24 @@ function slots2types(var_slots) {
 }
 
 function typecheck(ws) {
+    function get_all_vars(block) {
+        if (block.type == 'variables_get') {
+            return [block];
+        } else if (block.type.startsWith('kairos_control_multivar')) {
+            var output = [];
+            var block_children = block.getChildren(false);
+            for (var i = 0; i < block_children.length; i++) {
+                var child_vars = get_all_vars(block_children[i]);
+                for (var j = 0; j < child_vars.length; j++) {
+                    output.push(child_vars[j]);
+                }
+            }
+            return output;
+        } else {
+            return [];
+        }
+    }
+
     var vars_slots = {};
     var blocks = ws.getAllBlocks(false);
     for (var i = 0; i < blocks.length; i++) {
@@ -178,12 +212,17 @@ function typecheck(ws) {
                 var arg_name = events_args[event_name][arg_id][0];
                 var arg_block = block.getInput(arg_name).connection.targetBlock();
                 if (arg_block) {
-                    var var_id = arg_block.getFieldValue('VAR');
-                    if (!(var_id in vars_slots)) {
-                        vars_slots[var_id] = new Set();
+                    var arg_all_vars = get_all_vars(arg_block);
+                    for (var k = 0; k < arg_all_vars.length; k++) {
+                        var var_block = arg_all_vars[k];
+                        console.assert(var_block.type === 'variables_get');
+                        var var_id = var_block.getFieldValue('VAR');
+                        if (!(var_id in vars_slots)) {
+                            vars_slots[var_id] = new Set();
+                        }
+                        var event_name_and_arg_id = event_name + "_arg_" + arg_id.toString();
+                        vars_slots[var_id].add(event_name_and_arg_id);
                     }
-                    var event_name_and_arg_id = event_name + "_arg_" + arg_id.toString();
-                    vars_slots[var_id].add(event_name_and_arg_id);
                 }
             }
         }

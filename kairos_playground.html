@@ -825,1356 +825,1021 @@ function logger(e) {
   <!-- toolbox-categories-typed-variables has a category menu and an
   auto-closing flyout.  The Variables category uses typed variable blocks.
   See https://developers.google.com/blockly/guides/create-custom-blocks/variables#typed_variable_blocks for more information. -->
-  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-categories-typed-variables" style="display: none">
-    <category name="Logic" categorystyle="logic_category">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="logic_null" disabled="true"></block>
-      <block type="logic_ternary"></block>
-    </category>
-    <category name="Loops" categorystyle="loop_category">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="controls_repeat" disabled="true"></block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_for">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-        <value name="BY">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
-    </category>
-    <category name="Math" categorystyle="math_category">
-      <block type="math_number" gap="32">
-        <field name="NUM">123</field>
-      </block>
-      <block type="math_arithmetic">
-        <value name="A">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="B">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_single">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">9</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_trig">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">45</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constant"></block>
-      <block type="math_number_property">
-        <value name="NUMBER_TO_CHECK">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_round">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">3.1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_on_list"></block>
-      <block type="math_modulo">
-        <value name="DIVIDEND">
-          <shadow type="math_number">
-            <field name="NUM">64</field>
-          </shadow>
-        </value>
-        <value name="DIVISOR">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constrain">
-        <value name="VALUE">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="LOW">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="HIGH">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_int">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_float"></block>
-      <block type="math_atan2">
-        <value name="X">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="Y">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-    <category name="Text" categorystyle="text_category">
-      <block type="text"></block>
-      <block type="text_multiline"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_count">
-        <value name="SUB">
-          <shadow type="text"></shadow>
-        </value>
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_replace">
-        <value name="FROM">
-          <shadow type="text"></shadow>
-        </value>
-        <value name="TO">
-          <shadow type="text"></shadow>
-        </value>
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_reverse">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <label text="Input/Output:" web-class="ioLabel"></label>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_prompt_ext">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-    <category name="Lists" categorystyle="list_category">
-      <block type="lists_create_with">
-        <mutation items="0"></mutation>
-      </block>
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">5</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">list</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_getIndex">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">list</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_setIndex">
-        <value name="LIST">
-          <block type="variables_get">
-            <field name="VAR">list</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_getSublist">
-        <value name="LIST">
-          <block type="variables_get">
-            <field name="VAR">list</field>
-          </block>
-        </value>
-      </block>
-      <block type="lists_split">
-        <value name="DELIM">
-          <shadow type="text">
-            <field name="TEXT">,</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="lists_sort"></block>
-      <block type="lists_reverse"></block>
-    </category>
-    <category name="Colour" categorystyle="colour_category">
-      <block type="colour_picker"></block>
-      <block type="colour_random"></block>
-      <block type="colour_rgb">
-        <value name="RED">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-        <value name="GREEN">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="BLUE">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="colour_blend">
-        <value name="COLOUR1">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#ff0000</field>
-          </shadow>
-        </value>
-        <value name="COLOUR2">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#3333ff</field>
-          </shadow>
-        </value>
-        <value name="RATIO">
-          <shadow type="math_number">
-            <field name="NUM">0.5</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-    <sep></sep>
-    <category name="Variables" categorystyle="variable_category" custom="VARIABLE_DYNAMIC"></category>
-    <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
-  </xml>
-
-  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-kairos-blocks" style="display: none">
-    <category name="ArtifactExistence" categorystyle="list_category">
-      <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_0" movable="false" deletable="false">
-          <value name="DamagerDestroyer"><block type="variables_get"><field name="VAR">DamagerDestroyer</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_0" movable="false" deletable="false">
-          <value name="Damager"><block type="variables_get"><field name="VAR">Damager</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_0" movable="false" deletable="false">
-          <value name="Destroyer"><block type="variables_get"><field name="VAR">Destroyer</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_0" movable="false" deletable="false">
-          <value name="Disabler"><block type="variables_get"><field name="VAR">Disabler</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_0" movable="false" deletable="false">
-          <value name="Dismantler"><block type="variables_get"><field name="VAR">Dismantler</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_2" movable="false" deletable="false">
-          <value name="Components"><block type="variables_get"><field name="VAR">Components</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_ArtifactExistence.ManufactureAssemble">
-        <value name="part_0"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_0" movable="false" deletable="false">
-          <value name="ManufacturerAssembler"><block type="variables_get"><field name="VAR">ManufacturerAssembler</field></block></value>
-          <value name="Artifact"><block type="variables_get"><field name="VAR">Artifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_1" movable="false" deletable="false">
-          <value name="Components"><block type="variables_get"><field name="VAR">Components</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Cognitive" categorystyle="list_category">
-      <block type="kairos_event_Cognitive.IdentifyCategorize">
-        <value name="part_0"><block type="kairos_event_Cognitive.IdentifyCategorize_part_0" movable="false" deletable="false">
-          <value name="Identifier"><block type="variables_get"><field name="VAR">Identifier</field></block></value>
-          <value name="IdentifiedObject"><block type="variables_get"><field name="VAR">IdentifiedObject</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Cognitive.IdentifyCategorize_part_1" movable="false" deletable="false">
-          <value name="IdentifiedRole"><block type="variables_get"><field name="VAR">IdentifiedRole</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Cognitive.IdentifyCategorize_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Cognitive.Inspection.SensoryObserve">
-        <value name="part_0"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_0" movable="false" deletable="false">
-          <value name="Observer"><block type="variables_get"><field name="VAR">Observer</field></block></value>
-          <value name="ObservedEntity"><block type="variables_get"><field name="VAR">ObservedEntity</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Cognitive.Research">
-        <value name="part_0"><block type="kairos_event_Cognitive.Research_part_0" movable="false" deletable="false">
-          <value name="Researcher"><block type="variables_get"><field name="VAR">Researcher</field></block></value>
-          <value name="Subject"><block type="variables_get"><field name="VAR">Subject</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Cognitive.Research_part_1" movable="false" deletable="false">
-          <value name="Means"><block type="variables_get"><field name="VAR">Means</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Cognitive.Research_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Cognitive.TeachingTrainingLearning">
-        <value name="part_0"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_0" movable="false" deletable="false">
-          <value name="TeacherTrainer"><block type="variables_get"><field name="VAR">TeacherTrainer</field></block></value>
-          <value name="FieldOfKnowledge"><block type="variables_get"><field name="VAR">FieldOfKnowledge</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_1" movable="false" deletable="false">
-          <value name="Learner"><block type="variables_get"><field name="VAR">Learner</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_2" movable="false" deletable="false">
-          <value name="Means"><block type="variables_get"><field name="VAR">Means</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_3" movable="false" deletable="false">
-          <value name="Institution"><block type="variables_get"><field name="VAR">Institution</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Conflict" categorystyle="list_category">
-      <block type="kairos_event_Conflict.Attack">
-        <value name="part_0"><block type="kairos_event_Conflict.Attack_part_0" movable="false" deletable="false">
-          <value name="Attacker"><block type="variables_get"><field name="VAR">Attacker</field></block></value>
-          <value name="Target"><block type="variables_get"><field name="VAR">Target</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Conflict.Attack_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Conflict.Attack_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Conflict.Attack.DetonateExplode">
-        <value name="part_0"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_0" movable="false" deletable="false">
-          <value name="Attacker"><block type="variables_get"><field name="VAR">Attacker</field></block></value>
-          <value name="ExplosiveDevice"><block type="variables_get"><field name="VAR">ExplosiveDevice</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_2" movable="false" deletable="false">
-          <value name="Target"><block type="variables_get"><field name="VAR">Target</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Conflict.Defeat">
-        <value name="part_0"><block type="kairos_event_Conflict.Defeat_part_0" movable="false" deletable="false">
-          <value name="Victor"><block type="variables_get"><field name="VAR">Victor</field></block></value>
-          <value name="Defeated"><block type="variables_get"><field name="VAR">Defeated</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Conflict.Defeat_part_1" movable="false" deletable="false">
-          <value name="Conflict"><block type="variables_get"><field name="VAR">Conflict</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Conflict.Defeat_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Conflict.Demonstrate">
-        <value name="part_0"><block type="kairos_event_Conflict.Demonstrate_part_0" movable="false" deletable="false">
-          <value name="Demonstrator"><block type="variables_get"><field name="VAR">Demonstrator</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Conflict.Demonstrate_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Conflict.Demonstrate_part_2" movable="false" deletable="false">
-          <value name="VisualDisplay"><block type="variables_get"><field name="VAR">VisualDisplay</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Conflict.Demonstrate_part_3" movable="false" deletable="false">
-          <value name="Target"><block type="variables_get"><field name="VAR">Target</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Conflict.Demonstrate_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_5"><block type="kairos_event_Conflict.Demonstrate_part_5" movable="false" deletable="false">
-          <value name="Regulator"><block type="variables_get"><field name="VAR">Regulator</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence">
-        <value name="part_0"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_0" movable="false" deletable="false">
-          <value name="Demonstrator"><block type="variables_get"><field name="VAR">Demonstrator</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_2" movable="false" deletable="false">
-          <value name="VisualDisplay"><block type="variables_get"><field name="VAR">VisualDisplay</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_3" movable="false" deletable="false">
-          <value name="Target"><block type="variables_get"><field name="VAR">Target</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_5"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_5" movable="false" deletable="false">
-          <value name="Regulator"><block type="variables_get"><field name="VAR">Regulator</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Contact" categorystyle="list_category">
-      <block type="kairos_event_Contact.Contact">
-        <value name="part_0"><block type="kairos_event_Contact.Contact_part_0" movable="false" deletable="false">
-          <value name="Participant"><block type="variables_get"><field name="VAR">Participant</field></block></value>
-          <value name="Participant2"><block type="variables_get"><field name="VAR">Participant2</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Contact_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Contact_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Contact_part_3" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Contact.Broadcast">
-        <value name="part_0"><block type="kairos_event_Contact.Contact.Broadcast_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Contact.Broadcast_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Contact.Broadcast_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Contact.Broadcast_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Contact.Contact.Broadcast_part_4" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Contact.Correspondence">
-        <value name="part_0"><block type="kairos_event_Contact.Contact.Correspondence_part_0" movable="false" deletable="false">
-          <value name="Participant"><block type="variables_get"><field name="VAR">Participant</field></block></value>
-          <value name="Participant2"><block type="variables_get"><field name="VAR">Participant2</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Contact.Correspondence_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Contact.Correspondence_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Contact.Correspondence_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Contact.Meet">
-        <value name="part_0"><block type="kairos_event_Contact.Contact.Meet_part_0" movable="false" deletable="false">
-          <value name="Participant"><block type="variables_get"><field name="VAR">Participant</field></block></value>
-          <value name="Participant2"><block type="variables_get"><field name="VAR">Participant2</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Contact.Meet_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Contact.Meet_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Prevarication">
-        <value name="part_0"><block type="kairos_event_Contact.Prevarication_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Prevarication_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Prevarication_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Prevarication_part_3" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Prevarication.Broadcast">
-        <value name="part_0"><block type="kairos_event_Contact.Prevarication.Broadcast_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Prevarication.Broadcast_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Prevarication.Broadcast_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Prevarication.Broadcast_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Contact.Prevarication.Broadcast_part_4" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Prevarication.Correspondence">
-        <value name="part_0"><block type="kairos_event_Contact.Prevarication.Correspondence_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Prevarication.Correspondence_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Prevarication.Correspondence_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Prevarication.Correspondence_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Prevarication.Meet">
-        <value name="part_0"><block type="kairos_event_Contact.Prevarication.Meet_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Prevarication.Meet_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Prevarication.Meet_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Request">
-        <value name="part_0"><block type="kairos_event_Contact.Request_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Request_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Request_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Request_part_3" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Request.Broadcast">
-        <value name="part_0"><block type="kairos_event_Contact.Request.Broadcast_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Request.Broadcast_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Request.Broadcast_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Request.Broadcast_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Contact.Request.Broadcast_part_4" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Request.Correspondence">
-        <value name="part_0"><block type="kairos_event_Contact.Request.Correspondence_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Request.Correspondence_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Request.Correspondence_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.Request.Correspondence_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.Request.Meet">
-        <value name="part_0"><block type="kairos_event_Contact.Request.Meet_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.Request.Meet_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.Request.Meet_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.ThreatenCoerce">
-        <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce_part_3" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.ThreatenCoerce.Broadcast">
-        <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_4" movable="false" deletable="false">
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.ThreatenCoerce.Correspondence">
-        <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Contact.ThreatenCoerce.Meet">
-        <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_0" movable="false" deletable="false">
-          <value name="Communicator"><block type="variables_get"><field name="VAR">Communicator</field></block></value>
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_1" movable="false" deletable="false">
-          <value name="Topic"><block type="variables_get"><field name="VAR">Topic</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Control" categorystyle="list_category">
-      <block type="kairos_event_Control.ImpedeInterfereWith">
-        <value name="part_0"><block type="kairos_event_Control.ImpedeInterfereWith_part_0" movable="false" deletable="false">
-          <value name="Impeder"><block type="variables_get"><field name="VAR">Impeder</field></block></value>
-          <value name="ImpededEvent"><block type="variables_get"><field name="VAR">ImpededEvent</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Control.ImpedeInterfereWith_part_1" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Disaster" categorystyle="list_category">
-      <block type="kairos_event_Disaster.Crash">
-        <value name="part_0"><block type="kairos_event_Disaster.Crash_part_0" movable="false" deletable="false">
-          <value name="DriverPassenger"><block type="variables_get"><field name="VAR">DriverPassenger</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Disaster.Crash_part_1" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Disaster.Crash_part_2" movable="false" deletable="false">
-          <value name="CrashObject"><block type="variables_get"><field name="VAR">CrashObject</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Disaster.Crash_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Disaster.DiseaseOutbreak">
-        <value name="part_0"><block type="kairos_event_Disaster.DiseaseOutbreak_part_0" movable="false" deletable="false">
-          <value name="Disease"><block type="variables_get"><field name="VAR">Disease</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Disaster.DiseaseOutbreak_part_1" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Disaster.DiseaseOutbreak_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Disaster.FireExplosion">
-        <value name="part_0"><block type="kairos_event_Disaster.FireExplosion_part_0" movable="false" deletable="false">
-          <value name="FireExplosionObject"><block type="variables_get"><field name="VAR">FireExplosionObject</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Disaster.FireExplosion_part_1" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Disaster.FireExplosion_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="GenericCrime" categorystyle="list_category">
-      <block type="kairos_event_GenericCrime.GenericCrime.GenericCrime">
-        <value name="part_0"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_0" movable="false" deletable="false">
-          <value name="Perpetrator"><block type="variables_get"><field name="VAR">Perpetrator</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_1" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Justice" categorystyle="list_category">
-      <block type="kairos_event_Justice.Acquit">
-        <value name="part_0"><block type="kairos_event_Justice.Acquit_part_0" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.Acquit_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.Acquit_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.ArrestJailDetain">
-        <value name="part_0"><block type="kairos_event_Justice.ArrestJailDetain_part_0" movable="false" deletable="false">
-          <value name="Jailer"><block type="variables_get"><field name="VAR">Jailer</field></block></value>
-          <value name="Detainee"><block type="variables_get"><field name="VAR">Detainee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.ArrestJailDetain_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.ArrestJailDetain_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.ChargeIndict">
-        <value name="part_0"><block type="kairos_event_Justice.ChargeIndict_part_0" movable="false" deletable="false">
-          <value name="Prosecutor"><block type="variables_get"><field name="VAR">Prosecutor</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.ChargeIndict_part_1" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.ChargeIndict_part_2" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Justice.ChargeIndict_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.Convict">
-        <value name="part_0"><block type="kairos_event_Justice.Convict_part_0" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.Convict_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.Convict_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.InvestigateCrime">
-        <value name="part_0"><block type="kairos_event_Justice.InvestigateCrime_part_0" movable="false" deletable="false">
-          <value name="Investigator"><block type="variables_get"><field name="VAR">Investigator</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.InvestigateCrime_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.InvestigateCrime_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.ReleaseParole">
-        <value name="part_0"><block type="kairos_event_Justice.ReleaseParole_part_0" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.ReleaseParole_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.ReleaseParole_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.Sentence">
-        <value name="part_0"><block type="kairos_event_Justice.Sentence_part_0" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.Sentence_part_1" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.Sentence_part_2" movable="false" deletable="false">
-          <value name="Sentence"><block type="variables_get"><field name="VAR">Sentence</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Justice.Sentence_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Justice.TrialHearing">
-        <value name="part_0"><block type="kairos_event_Justice.TrialHearing_part_0" movable="false" deletable="false">
-          <value name="Prosecutor"><block type="variables_get"><field name="VAR">Prosecutor</field></block></value>
-          <value name="Defendant"><block type="variables_get"><field name="VAR">Defendant</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Justice.TrialHearing_part_1" movable="false" deletable="false">
-          <value name="JudgeCourt"><block type="variables_get"><field name="VAR">JudgeCourt</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Justice.TrialHearing_part_2" movable="false" deletable="false">
-          <value name="Crime"><block type="variables_get"><field name="VAR">Crime</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Justice.TrialHearing_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Life" categorystyle="list_category">
-      <block type="kairos_event_Life.Consume">
-        <value name="part_0"><block type="kairos_event_Life.Consume_part_0" movable="false" deletable="false">
-          <value name="ConsumingEntity"><block type="variables_get"><field name="VAR">ConsumingEntity</field></block></value>
-          <value name="ConsumedThing"><block type="variables_get"><field name="VAR">ConsumedThing</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Life.Consume_part_1" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Life.Die">
-        <value name="part_0"><block type="kairos_event_Life.Die_part_0" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Life.Die_part_1" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Life.Die_part_2" movable="false" deletable="false">
-          <value name="MedicalIssue"><block type="variables_get"><field name="VAR">MedicalIssue</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Life.Die_part_3" movable="false" deletable="false">
-          <value name="Killer"><block type="variables_get"><field name="VAR">Killer</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Life.Illness">
-        <value name="part_0"><block type="kairos_event_Life.Illness_part_0" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-          <value name="Disease"><block type="variables_get"><field name="VAR">Disease</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Life.Illness_part_1" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Life.Illness_part_2" movable="false" deletable="false">
-          <value name="DeliberateInjurer"><block type="variables_get"><field name="VAR">DeliberateInjurer</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Life.Infect">
-        <value name="part_0"><block type="kairos_event_Life.Infect_part_0" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Life.Infect_part_1" movable="false" deletable="false">
-          <value name="InfectingAgent"><block type="variables_get"><field name="VAR">InfectingAgent</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Life.Infect_part_2" movable="false" deletable="false">
-          <value name="Source"><block type="variables_get"><field name="VAR">Source</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Life.Infect_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Life.Injure">
-        <value name="part_0"><block type="kairos_event_Life.Injure_part_0" movable="false" deletable="false">
-          <value name="Victim"><block type="variables_get"><field name="VAR">Victim</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Life.Injure_part_1" movable="false" deletable="false">
-          <value name="Injurer"><block type="variables_get"><field name="VAR">Injurer</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Life.Injure_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Life.Injure_part_3" movable="false" deletable="false">
-          <value name="BodyPart"><block type="variables_get"><field name="VAR">BodyPart</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Life.Injure_part_4" movable="false" deletable="false">
-          <value name="MedicalCondition"><block type="variables_get"><field name="VAR">MedicalCondition</field></block></value>
-        </block></value>
-        <value name="part_5"><block type="kairos_event_Life.Injure_part_5" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Medical" categorystyle="list_category">
-      <block type="kairos_event_Medical.Diagnosis">
-        <value name="part_0"><block type="kairos_event_Medical.Diagnosis_part_0" movable="false" deletable="false">
-          <value name="Treater"><block type="variables_get"><field name="VAR">Treater</field></block></value>
-          <value name="Patient"><block type="variables_get"><field name="VAR">Patient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Medical.Diagnosis_part_1" movable="false" deletable="false">
-          <value name="SymptomSign"><block type="variables_get"><field name="VAR">SymptomSign</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Medical.Diagnosis_part_2" movable="false" deletable="false">
-          <value name="MedicalCondition"><block type="variables_get"><field name="VAR">MedicalCondition</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Medical.Diagnosis_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Medical.Intervention">
-        <value name="part_0"><block type="kairos_event_Medical.Intervention_part_0" movable="false" deletable="false">
-          <value name="Treater"><block type="variables_get"><field name="VAR">Treater</field></block></value>
-          <value name="Patient"><block type="variables_get"><field name="VAR">Patient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Medical.Intervention_part_1" movable="false" deletable="false">
-          <value name="MedicalIssue"><block type="variables_get"><field name="VAR">MedicalIssue</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Medical.Intervention_part_2" movable="false" deletable="false">
-          <value name="Instrument"><block type="variables_get"><field name="VAR">Instrument</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Medical.Intervention_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Medical.Vaccinate">
-        <value name="part_0"><block type="kairos_event_Medical.Vaccinate_part_0" movable="false" deletable="false">
-          <value name="Treater"><block type="variables_get"><field name="VAR">Treater</field></block></value>
-          <value name="Patient"><block type="variables_get"><field name="VAR">Patient</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Medical.Vaccinate_part_1" movable="false" deletable="false">
-          <value name="VaccineMethod"><block type="variables_get"><field name="VAR">VaccineMethod</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Medical.Vaccinate_part_2" movable="false" deletable="false">
-          <value name="VaccineTarget"><block type="variables_get"><field name="VAR">VaccineTarget</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Medical.Vaccinate_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Movement" categorystyle="list_category">
-      <block type="kairos_event_Movement.Transportation">
-        <value name="part_0"><block type="kairos_event_Movement.Transportation_part_0" movable="false" deletable="false">
-          <value name="Transporter"><block type="variables_get"><field name="VAR">Transporter</field></block></value>
-          <value name="PassengerArtifact"><block type="variables_get"><field name="VAR">PassengerArtifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Movement.Transportation_part_1" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Movement.Transportation_part_2" movable="false" deletable="false">
-          <value name="Source Place"><block type="variables_get"><field name="VAR">Source Place</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Movement.Transportation_part_3" movable="false" deletable="false">
-          <value name="Destination Place"><block type="variables_get"><field name="VAR">Destination Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Movement.Transportation.Evacuation">
-        <value name="part_0"><block type="kairos_event_Movement.Transportation.Evacuation_part_0" movable="false" deletable="false">
-          <value name="Transporter"><block type="variables_get"><field name="VAR">Transporter</field></block></value>
-          <value name="PassengerArtifact"><block type="variables_get"><field name="VAR">PassengerArtifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Movement.Transportation.Evacuation_part_1" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Movement.Transportation.Evacuation_part_2" movable="false" deletable="false">
-          <value name="Origin"><block type="variables_get"><field name="VAR">Origin</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Movement.Transportation.Evacuation_part_3" movable="false" deletable="false">
-          <value name="Destination"><block type="variables_get"><field name="VAR">Destination</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Movement.Transportation.GrantAllowPassage">
-        <value name="part_0"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_0" movable="false" deletable="false">
-          <value name="Granter"><block type="variables_get"><field name="VAR">Granter</field></block></value>
-          <value name="Transporter"><block type="variables_get"><field name="VAR">Transporter</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_1" movable="false" deletable="false">
-          <value name="Destination"><block type="variables_get"><field name="VAR">Destination</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_2" movable="false" deletable="false">
-          <value name="Origin"><block type="variables_get"><field name="VAR">Origin</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_3" movable="false" deletable="false">
-          <value name="PassengerArtifact"><block type="variables_get"><field name="VAR">PassengerArtifact</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_4" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Movement.Transportation.IllegalTransportation">
-        <value name="part_0"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_0" movable="false" deletable="false">
-          <value name="Transporter"><block type="variables_get"><field name="VAR">Transporter</field></block></value>
-          <value name="PassengerArtifact"><block type="variables_get"><field name="VAR">PassengerArtifact</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_1" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_2" movable="false" deletable="false">
-          <value name="Origin"><block type="variables_get"><field name="VAR">Origin</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_3" movable="false" deletable="false">
-          <value name="Destination"><block type="variables_get"><field name="VAR">Destination</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Movement.Transportation.PreventPassage">
-        <value name="part_0"><block type="kairos_event_Movement.Transportation.PreventPassage_part_0" movable="false" deletable="false">
-          <value name="Preventer"><block type="variables_get"><field name="VAR">Preventer</field></block></value>
-          <value name="Transporter"><block type="variables_get"><field name="VAR">Transporter</field></block></value>
-          <value name="Destination"><block type="variables_get"><field name="VAR">Destination</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Movement.Transportation.PreventPassage_part_1" movable="false" deletable="false">
-          <value name="Origin"><block type="variables_get"><field name="VAR">Origin</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Movement.Transportation.PreventPassage_part_2" movable="false" deletable="false">
-          <value name="PassengerArtifact"><block type="variables_get"><field name="VAR">PassengerArtifact</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Movement.Transportation.PreventPassage_part_3" movable="false" deletable="false">
-          <value name="Vehicle"><block type="variables_get"><field name="VAR">Vehicle</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Personnel" categorystyle="list_category">
-      <block type="kairos_event_Personnel.ChangePosition">
-        <value name="part_0"><block type="kairos_event_Personnel.ChangePosition_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.ChangePosition_part_1" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.ChangePosition_part_2" movable="false" deletable="false">
-          <value name="PreviousPosition"><block type="variables_get"><field name="VAR">PreviousPosition</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.ChangePosition_part_3" movable="false" deletable="false">
-          <value name="NewPosition"><block type="variables_get"><field name="VAR">NewPosition</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Personnel.ChangePosition_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation">
-        <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_1" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_2" movable="false" deletable="false">
-          <value name="PreviousOrgLocation"><block type="variables_get"><field name="VAR">PreviousOrgLocation</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_3" movable="false" deletable="false">
-          <value name="NewOrgLocation"><block type="variables_get"><field name="VAR">NewOrgLocation</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.ChangePosition.Demotion">
-        <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_1" movable="false" deletable="false">
-          <value name="PreviousPosition"><block type="variables_get"><field name="VAR">PreviousPosition</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_2" movable="false" deletable="false">
-          <value name="NewPosition"><block type="variables_get"><field name="VAR">NewPosition</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.ChangePosition.Lateral">
-        <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_1" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_2" movable="false" deletable="false">
-          <value name="PreviousPosition"><block type="variables_get"><field name="VAR">PreviousPosition</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_3" movable="false" deletable="false">
-          <value name="NewPosition"><block type="variables_get"><field name="VAR">NewPosition</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.ChangePosition.Promotion">
-        <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_1" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_2" movable="false" deletable="false">
-          <value name="PreviousPosition"><block type="variables_get"><field name="VAR">PreviousPosition</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_3" movable="false" deletable="false">
-          <value name="NewPosition"><block type="variables_get"><field name="VAR">NewPosition</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.Elect">
-        <value name="part_0"><block type="kairos_event_Personnel.Elect_part_0" movable="false" deletable="false">
-          <value name="Voter"><block type="variables_get"><field name="VAR">Voter</field></block></value>
-          <value name="Candidate"><block type="variables_get"><field name="VAR">Candidate</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.Elect_part_1" movable="false" deletable="false">
-          <value name="Position"><block type="variables_get"><field name="VAR">Position</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.Elect_part_2" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.EndPosition">
-        <value name="part_0"><block type="kairos_event_Personnel.EndPosition_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.EndPosition_part_1" movable="false" deletable="false">
-          <value name="Position"><block type="variables_get"><field name="VAR">Position</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.EndPosition_part_2" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.EndPosition_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Personnel.StartPosition">
-        <value name="part_0"><block type="kairos_event_Personnel.StartPosition_part_0" movable="false" deletable="false">
-          <value name="Employee"><block type="variables_get"><field name="VAR">Employee</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Personnel.StartPosition_part_1" movable="false" deletable="false">
-          <value name="Position"><block type="variables_get"><field name="VAR">Position</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Personnel.StartPosition_part_2" movable="false" deletable="false">
-          <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR">PlaceOfEmployment</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Personnel.StartPosition_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Transaction" categorystyle="list_category">
-      <block type="kairos_event_Transaction.AidBetweenGovernments">
-        <value name="part_0"><block type="kairos_event_Transaction.AidBetweenGovernments_part_0" movable="false" deletable="false">
-          <value name="Giver"><block type="variables_get"><field name="VAR">Giver</field></block></value>
-          <value name="ArtifactMoney"><block type="variables_get"><field name="VAR">ArtifactMoney</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Transaction.AidBetweenGovernments_part_1" movable="false" deletable="false">
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Transaction.AidBetweenGovernments_part_2" movable="false" deletable="false">
-          <value name="Beneficiary"><block type="variables_get"><field name="VAR">Beneficiary</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Transaction.AidBetweenGovernments_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Transaction.Donation">
-        <value name="part_0"><block type="kairos_event_Transaction.Donation_part_0" movable="false" deletable="false">
-          <value name="Giver"><block type="variables_get"><field name="VAR">Giver</field></block></value>
-          <value name="ArtifactMoney"><block type="variables_get"><field name="VAR">ArtifactMoney</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Transaction.Donation_part_1" movable="false" deletable="false">
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Transaction.Donation_part_2" movable="false" deletable="false">
-          <value name="Beneficiary"><block type="variables_get"><field name="VAR">Beneficiary</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Transaction.Donation_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-      <block type="kairos_event_Transaction.ExchangeBuySell">
-        <value name="part_0"><block type="kairos_event_Transaction.ExchangeBuySell_part_0" movable="false" deletable="false">
-          <value name="Giver"><block type="variables_get"><field name="VAR">Giver</field></block></value>
-          <value name="AcquiredEntity"><block type="variables_get"><field name="VAR">AcquiredEntity</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Transaction.ExchangeBuySell_part_1" movable="false" deletable="false">
-          <value name="Recipient"><block type="variables_get"><field name="VAR">Recipient</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Transaction.ExchangeBuySell_part_2" movable="false" deletable="false">
-          <value name="PaymentBarter"><block type="variables_get"><field name="VAR">PaymentBarter</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Transaction.ExchangeBuySell_part_3" movable="false" deletable="false">
-          <value name="Beneficiary"><block type="variables_get"><field name="VAR">Beneficiary</field></block></value>
-        </block></value>
-        <value name="part_4"><block type="kairos_event_Transaction.ExchangeBuySell_part_4" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <category name="Vote" categorystyle="list_category">
-      <block type="kairos_event_Vote.Vote">
-        <value name="part_0"><block type="kairos_event_Vote.Vote_part_0" movable="false" deletable="false">
-          <value name="Voter"><block type="variables_get"><field name="VAR">Voter</field></block></value>
-          <value name="Candidate"><block type="variables_get"><field name="VAR">Candidate</field></block></value>
-        </block></value>
-        <value name="part_1"><block type="kairos_event_Vote.Vote_part_1" movable="false" deletable="false">
-          <value name="Ballot"><block type="variables_get"><field name="VAR">Ballot</field></block></value>
-        </block></value>
-        <value name="part_2"><block type="kairos_event_Vote.Vote_part_2" movable="false" deletable="false">
-          <value name="Result"><block type="variables_get"><field name="VAR">Result</field></block></value>
-        </block></value>
-        <value name="part_3"><block type="kairos_event_Vote.Vote_part_3" movable="false" deletable="false">
-          <value name="Place"><block type="variables_get"><field name="VAR">Place</field></block></value>
-        </block></value>
-      </block>
-    </category>
-    <sep></sep>
-    <category name="Control blocks" categorystyle="variable_category">
-      <block type="kairos_control_parallel"></block>
-    </category>
-  </xml>
+<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-kairos-blocks" style="display: none">
+<category name="ArtifactExistence" categorystyle="list_category">
+  <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_0" movable="false" deletable="false">
+        <value name="DamagerDestroyer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">DamagerDestroyer</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_0" movable="false" deletable="false">
+        <value name="Damager"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Damager</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_0" movable="false" deletable="false">
+        <value name="Destroyer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destroyer</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Destroy_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_0" movable="false" deletable="false">
+        <value name="Disabler"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Disabler</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.DisableDefuse_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_0" movable="false" deletable="false">
+        <value name="Dismantler"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Dismantler</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Dismantle_part_2" movable="false" deletable="false">
+        <value name="Components"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Components</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_ArtifactExistence.ManufactureAssemble">
+      <value name="part_0"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_0" movable="false" deletable="false">
+        <value name="ManufacturerAssembler"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ManufacturerAssembler</field></block></value>
+        <value name="Artifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Artifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_1" movable="false" deletable="false">
+        <value name="Components"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Components</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_ArtifactExistence.ManufactureAssemble_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Cognitive" categorystyle="list_category">
+  <block type="kairos_event_Cognitive.IdentifyCategorize">
+      <value name="part_0"><block type="kairos_event_Cognitive.IdentifyCategorize_part_0" movable="false" deletable="false">
+        <value name="Identifier"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Identifier</field></block></value>
+        <value name="IdentifiedObject"><block type="variables_get"><field name="VAR" variabletype="kairos_var">IdentifiedObject</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Cognitive.IdentifyCategorize_part_1" movable="false" deletable="false">
+        <value name="IdentifiedRole"><block type="variables_get"><field name="VAR" variabletype="kairos_var">IdentifiedRole</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Cognitive.IdentifyCategorize_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Cognitive.Inspection.SensoryObserve">
+      <value name="part_0"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_0" movable="false" deletable="false">
+        <value name="Observer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Observer</field></block></value>
+        <value name="ObservedEntity"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ObservedEntity</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Cognitive.Inspection.SensoryObserve_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Cognitive.Research">
+      <value name="part_0"><block type="kairos_event_Cognitive.Research_part_0" movable="false" deletable="false">
+        <value name="Researcher"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Researcher</field></block></value>
+        <value name="Subject"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Subject</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Cognitive.Research_part_1" movable="false" deletable="false">
+        <value name="Means"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Means</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Cognitive.Research_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Cognitive.TeachingTrainingLearning">
+      <value name="part_0"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_0" movable="false" deletable="false">
+        <value name="TeacherTrainer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">TeacherTrainer</field></block></value>
+        <value name="FieldOfKnowledge"><block type="variables_get"><field name="VAR" variabletype="kairos_var">FieldOfKnowledge</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_1" movable="false" deletable="false">
+        <value name="Learner"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Learner</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_2" movable="false" deletable="false">
+        <value name="Means"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Means</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_3" movable="false" deletable="false">
+        <value name="Institution"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Institution</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Cognitive.TeachingTrainingLearning_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Conflict" categorystyle="list_category">
+  <block type="kairos_event_Conflict.Attack">
+      <value name="part_0"><block type="kairos_event_Conflict.Attack_part_0" movable="false" deletable="false">
+        <value name="Attacker"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Attacker</field></block></value>
+        <value name="Target"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Target</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Conflict.Attack_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Conflict.Attack_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Conflict.Attack.DetonateExplode">
+      <value name="part_0"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_0" movable="false" deletable="false">
+        <value name="Attacker"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Attacker</field></block></value>
+        <value name="ExplosiveDevice"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ExplosiveDevice</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_2" movable="false" deletable="false">
+        <value name="Target"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Target</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Conflict.Attack.DetonateExplode_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Conflict.Defeat">
+      <value name="part_0"><block type="kairos_event_Conflict.Defeat_part_0" movable="false" deletable="false">
+        <value name="Victor"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victor</field></block></value>
+        <value name="Defeated"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defeated</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Conflict.Defeat_part_1" movable="false" deletable="false">
+        <value name="Conflict"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Conflict</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Conflict.Defeat_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Conflict.Demonstrate">
+      <value name="part_0"><block type="kairos_event_Conflict.Demonstrate_part_0" movable="false" deletable="false">
+        <value name="Demonstrator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Demonstrator</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Conflict.Demonstrate_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Conflict.Demonstrate_part_2" movable="false" deletable="false">
+        <value name="VisualDisplay"><block type="variables_get"><field name="VAR" variabletype="kairos_var">VisualDisplay</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Conflict.Demonstrate_part_3" movable="false" deletable="false">
+        <value name="Target"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Target</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Conflict.Demonstrate_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_5"><block type="kairos_event_Conflict.Demonstrate_part_5" movable="false" deletable="false">
+        <value name="Regulator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Regulator</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence">
+      <value name="part_0"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_0" movable="false" deletable="false">
+        <value name="Demonstrator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Demonstrator</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_2" movable="false" deletable="false">
+        <value name="VisualDisplay"><block type="variables_get"><field name="VAR" variabletype="kairos_var">VisualDisplay</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_3" movable="false" deletable="false">
+        <value name="Target"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Target</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_5"><block type="kairos_event_Conflict.Demonstrate.DemonstrateWithViolence_part_5" movable="false" deletable="false">
+        <value name="Regulator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Regulator</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Contact" categorystyle="list_category">
+  <block type="kairos_event_Contact.Contact">
+      <value name="part_0"><block type="kairos_event_Contact.Contact_part_0" movable="false" deletable="false">
+        <value name="Participant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant</field></block></value>
+        <value name="Participant2"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant2</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Contact_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Contact_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Contact_part_3" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Contact.Broadcast">
+      <value name="part_0"><block type="kairos_event_Contact.Contact.Broadcast_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Contact.Broadcast_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Contact.Broadcast_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Contact.Broadcast_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Contact.Contact.Broadcast_part_4" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Contact.Correspondence">
+      <value name="part_0"><block type="kairos_event_Contact.Contact.Correspondence_part_0" movable="false" deletable="false">
+        <value name="Participant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant</field></block></value>
+        <value name="Participant2"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant2</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Contact.Correspondence_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Contact.Correspondence_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Contact.Correspondence_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Contact.Meet">
+      <value name="part_0"><block type="kairos_event_Contact.Contact.Meet_part_0" movable="false" deletable="false">
+        <value name="Participant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant</field></block></value>
+        <value name="Participant2"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Participant2</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Contact.Meet_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Contact.Meet_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Prevarication">
+      <value name="part_0"><block type="kairos_event_Contact.Prevarication_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Prevarication_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Prevarication_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Prevarication_part_3" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Prevarication.Broadcast">
+      <value name="part_0"><block type="kairos_event_Contact.Prevarication.Broadcast_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Prevarication.Broadcast_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Prevarication.Broadcast_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Prevarication.Broadcast_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Contact.Prevarication.Broadcast_part_4" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Prevarication.Correspondence">
+      <value name="part_0"><block type="kairos_event_Contact.Prevarication.Correspondence_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Prevarication.Correspondence_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Prevarication.Correspondence_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Prevarication.Correspondence_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Prevarication.Meet">
+      <value name="part_0"><block type="kairos_event_Contact.Prevarication.Meet_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Prevarication.Meet_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Prevarication.Meet_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Request">
+      <value name="part_0"><block type="kairos_event_Contact.Request_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Request_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Request_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Request_part_3" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Request.Broadcast">
+      <value name="part_0"><block type="kairos_event_Contact.Request.Broadcast_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Request.Broadcast_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Request.Broadcast_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Request.Broadcast_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Contact.Request.Broadcast_part_4" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Request.Correspondence">
+      <value name="part_0"><block type="kairos_event_Contact.Request.Correspondence_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Request.Correspondence_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Request.Correspondence_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.Request.Correspondence_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.Request.Meet">
+      <value name="part_0"><block type="kairos_event_Contact.Request.Meet_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.Request.Meet_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.Request.Meet_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.ThreatenCoerce">
+      <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce_part_3" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.ThreatenCoerce.Broadcast">
+      <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Contact.ThreatenCoerce.Broadcast_part_4" movable="false" deletable="false">
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.ThreatenCoerce.Correspondence">
+      <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Contact.ThreatenCoerce.Correspondence_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Contact.ThreatenCoerce.Meet">
+      <value name="part_0"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_0" movable="false" deletable="false">
+        <value name="Communicator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Communicator</field></block></value>
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_1" movable="false" deletable="false">
+        <value name="Topic"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Topic</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Contact.ThreatenCoerce.Meet_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Control" categorystyle="list_category">
+  <block type="kairos_event_Control.ImpedeInterfereWith">
+      <value name="part_0"><block type="kairos_event_Control.ImpedeInterfereWith_part_0" movable="false" deletable="false">
+        <value name="Impeder"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Impeder</field></block></value>
+        <value name="ImpededEvent"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ImpededEvent</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Control.ImpedeInterfereWith_part_1" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Disaster" categorystyle="list_category">
+  <block type="kairos_event_Disaster.Crash">
+      <value name="part_0"><block type="kairos_event_Disaster.Crash_part_0" movable="false" deletable="false">
+        <value name="DriverPassenger"><block type="variables_get"><field name="VAR" variabletype="kairos_var">DriverPassenger</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Disaster.Crash_part_1" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Disaster.Crash_part_2" movable="false" deletable="false">
+        <value name="CrashObject"><block type="variables_get"><field name="VAR" variabletype="kairos_var">CrashObject</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Disaster.Crash_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Disaster.DiseaseOutbreak">
+      <value name="part_0"><block type="kairos_event_Disaster.DiseaseOutbreak_part_0" movable="false" deletable="false">
+        <value name="Disease"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Disease</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Disaster.DiseaseOutbreak_part_1" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Disaster.DiseaseOutbreak_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Disaster.FireExplosion">
+      <value name="part_0"><block type="kairos_event_Disaster.FireExplosion_part_0" movable="false" deletable="false">
+        <value name="FireExplosionObject"><block type="variables_get"><field name="VAR" variabletype="kairos_var">FireExplosionObject</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Disaster.FireExplosion_part_1" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Disaster.FireExplosion_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="GenericCrime" categorystyle="list_category">
+  <block type="kairos_event_GenericCrime.GenericCrime.GenericCrime">
+      <value name="part_0"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_0" movable="false" deletable="false">
+        <value name="Perpetrator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Perpetrator</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_1" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_GenericCrime.GenericCrime.GenericCrime_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Justice" categorystyle="list_category">
+  <block type="kairos_event_Justice.Acquit">
+      <value name="part_0"><block type="kairos_event_Justice.Acquit_part_0" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.Acquit_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.Acquit_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.ArrestJailDetain">
+      <value name="part_0"><block type="kairos_event_Justice.ArrestJailDetain_part_0" movable="false" deletable="false">
+        <value name="Jailer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Jailer</field></block></value>
+        <value name="Detainee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Detainee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.ArrestJailDetain_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.ArrestJailDetain_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.ChargeIndict">
+      <value name="part_0"><block type="kairos_event_Justice.ChargeIndict_part_0" movable="false" deletable="false">
+        <value name="Prosecutor"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Prosecutor</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.ChargeIndict_part_1" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.ChargeIndict_part_2" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Justice.ChargeIndict_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.Convict">
+      <value name="part_0"><block type="kairos_event_Justice.Convict_part_0" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.Convict_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.Convict_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.InvestigateCrime">
+      <value name="part_0"><block type="kairos_event_Justice.InvestigateCrime_part_0" movable="false" deletable="false">
+        <value name="Investigator"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Investigator</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.InvestigateCrime_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.InvestigateCrime_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.ReleaseParole">
+      <value name="part_0"><block type="kairos_event_Justice.ReleaseParole_part_0" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.ReleaseParole_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.ReleaseParole_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.Sentence">
+      <value name="part_0"><block type="kairos_event_Justice.Sentence_part_0" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.Sentence_part_1" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.Sentence_part_2" movable="false" deletable="false">
+        <value name="Sentence"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Sentence</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Justice.Sentence_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Justice.TrialHearing">
+      <value name="part_0"><block type="kairos_event_Justice.TrialHearing_part_0" movable="false" deletable="false">
+        <value name="Prosecutor"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Prosecutor</field></block></value>
+        <value name="Defendant"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Defendant</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Justice.TrialHearing_part_1" movable="false" deletable="false">
+        <value name="JudgeCourt"><block type="variables_get"><field name="VAR" variabletype="kairos_var">JudgeCourt</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Justice.TrialHearing_part_2" movable="false" deletable="false">
+        <value name="Crime"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Crime</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Justice.TrialHearing_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Life" categorystyle="list_category">
+  <block type="kairos_event_Life.Consume">
+      <value name="part_0"><block type="kairos_event_Life.Consume_part_0" movable="false" deletable="false">
+        <value name="ConsumingEntity"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ConsumingEntity</field></block></value>
+        <value name="ConsumedThing"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ConsumedThing</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Life.Consume_part_1" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Life.Die">
+      <value name="part_0"><block type="kairos_event_Life.Die_part_0" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Life.Die_part_1" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Life.Die_part_2" movable="false" deletable="false">
+        <value name="MedicalIssue"><block type="variables_get"><field name="VAR" variabletype="kairos_var">MedicalIssue</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Life.Die_part_3" movable="false" deletable="false">
+        <value name="Killer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Killer</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Life.Illness">
+      <value name="part_0"><block type="kairos_event_Life.Illness_part_0" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+        <value name="Disease"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Disease</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Life.Illness_part_1" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Life.Illness_part_2" movable="false" deletable="false">
+        <value name="DeliberateInjurer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">DeliberateInjurer</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Life.Infect">
+      <value name="part_0"><block type="kairos_event_Life.Infect_part_0" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Life.Infect_part_1" movable="false" deletable="false">
+        <value name="InfectingAgent"><block type="variables_get"><field name="VAR" variabletype="kairos_var">InfectingAgent</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Life.Infect_part_2" movable="false" deletable="false">
+        <value name="Source"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Source</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Life.Infect_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Life.Injure">
+      <value name="part_0"><block type="kairos_event_Life.Injure_part_0" movable="false" deletable="false">
+        <value name="Victim"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Victim</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Life.Injure_part_1" movable="false" deletable="false">
+        <value name="Injurer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Injurer</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Life.Injure_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Life.Injure_part_3" movable="false" deletable="false">
+        <value name="BodyPart"><block type="variables_get"><field name="VAR" variabletype="kairos_var">BodyPart</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Life.Injure_part_4" movable="false" deletable="false">
+        <value name="MedicalCondition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">MedicalCondition</field></block></value>
+      </block></value>
+      <value name="part_5"><block type="kairos_event_Life.Injure_part_5" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Medical" categorystyle="list_category">
+  <block type="kairos_event_Medical.Diagnosis">
+      <value name="part_0"><block type="kairos_event_Medical.Diagnosis_part_0" movable="false" deletable="false">
+        <value name="Treater"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Treater</field></block></value>
+        <value name="Patient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Patient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Medical.Diagnosis_part_1" movable="false" deletable="false">
+        <value name="SymptomSign"><block type="variables_get"><field name="VAR" variabletype="kairos_var">SymptomSign</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Medical.Diagnosis_part_2" movable="false" deletable="false">
+        <value name="MedicalCondition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">MedicalCondition</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Medical.Diagnosis_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Medical.Intervention">
+      <value name="part_0"><block type="kairos_event_Medical.Intervention_part_0" movable="false" deletable="false">
+        <value name="Treater"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Treater</field></block></value>
+        <value name="Patient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Patient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Medical.Intervention_part_1" movable="false" deletable="false">
+        <value name="MedicalIssue"><block type="variables_get"><field name="VAR" variabletype="kairos_var">MedicalIssue</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Medical.Intervention_part_2" movable="false" deletable="false">
+        <value name="Instrument"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Instrument</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Medical.Intervention_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Medical.Vaccinate">
+      <value name="part_0"><block type="kairos_event_Medical.Vaccinate_part_0" movable="false" deletable="false">
+        <value name="Treater"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Treater</field></block></value>
+        <value name="Patient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Patient</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Medical.Vaccinate_part_1" movable="false" deletable="false">
+        <value name="VaccineMethod"><block type="variables_get"><field name="VAR" variabletype="kairos_var">VaccineMethod</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Medical.Vaccinate_part_2" movable="false" deletable="false">
+        <value name="VaccineTarget"><block type="variables_get"><field name="VAR" variabletype="kairos_var">VaccineTarget</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Medical.Vaccinate_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Movement" categorystyle="list_category">
+  <block type="kairos_event_Movement.Transportation">
+      <value name="part_0"><block type="kairos_event_Movement.Transportation_part_0" movable="false" deletable="false">
+        <value name="Transporter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Transporter</field></block></value>
+        <value name="PassengerArtifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PassengerArtifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Movement.Transportation_part_1" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Movement.Transportation_part_2" movable="false" deletable="false">
+        <value name="Source Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Source Place</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Movement.Transportation_part_3" movable="false" deletable="false">
+        <value name="Destination Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destination Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Movement.Transportation.Evacuation">
+      <value name="part_0"><block type="kairos_event_Movement.Transportation.Evacuation_part_0" movable="false" deletable="false">
+        <value name="Transporter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Transporter</field></block></value>
+        <value name="PassengerArtifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PassengerArtifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Movement.Transportation.Evacuation_part_1" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Movement.Transportation.Evacuation_part_2" movable="false" deletable="false">
+        <value name="Origin"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Origin</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Movement.Transportation.Evacuation_part_3" movable="false" deletable="false">
+        <value name="Destination"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destination</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Movement.Transportation.GrantAllowPassage">
+      <value name="part_0"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_0" movable="false" deletable="false">
+        <value name="Granter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Granter</field></block></value>
+        <value name="Transporter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Transporter</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_1" movable="false" deletable="false">
+        <value name="Destination"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destination</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_2" movable="false" deletable="false">
+        <value name="Origin"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Origin</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_3" movable="false" deletable="false">
+        <value name="PassengerArtifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PassengerArtifact</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Movement.Transportation.GrantAllowPassage_part_4" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Movement.Transportation.IllegalTransportation">
+      <value name="part_0"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_0" movable="false" deletable="false">
+        <value name="Transporter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Transporter</field></block></value>
+        <value name="PassengerArtifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PassengerArtifact</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_1" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_2" movable="false" deletable="false">
+        <value name="Origin"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Origin</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Movement.Transportation.IllegalTransportation_part_3" movable="false" deletable="false">
+        <value name="Destination"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destination</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Movement.Transportation.PreventPassage">
+      <value name="part_0"><block type="kairos_event_Movement.Transportation.PreventPassage_part_0" movable="false" deletable="false">
+        <value name="Preventer"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Preventer</field></block></value>
+        <value name="Transporter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Transporter</field></block></value>
+        <value name="Destination"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Destination</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Movement.Transportation.PreventPassage_part_1" movable="false" deletable="false">
+        <value name="Origin"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Origin</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Movement.Transportation.PreventPassage_part_2" movable="false" deletable="false">
+        <value name="PassengerArtifact"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PassengerArtifact</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Movement.Transportation.PreventPassage_part_3" movable="false" deletable="false">
+        <value name="Vehicle"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Vehicle</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Personnel" categorystyle="list_category">
+  <block type="kairos_event_Personnel.ChangePosition">
+      <value name="part_0"><block type="kairos_event_Personnel.ChangePosition_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.ChangePosition_part_1" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.ChangePosition_part_2" movable="false" deletable="false">
+        <value name="PreviousPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PreviousPosition</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.ChangePosition_part_3" movable="false" deletable="false">
+        <value name="NewPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">NewPosition</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Personnel.ChangePosition_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation">
+      <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_1" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_2" movable="false" deletable="false">
+        <value name="PreviousOrgLocation"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PreviousOrgLocation</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.ChangeJobLocation_part_3" movable="false" deletable="false">
+        <value name="NewOrgLocation"><block type="variables_get"><field name="VAR" variabletype="kairos_var">NewOrgLocation</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.ChangePosition.Demotion">
+      <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_1" movable="false" deletable="false">
+        <value name="PreviousPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PreviousPosition</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_2" movable="false" deletable="false">
+        <value name="NewPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">NewPosition</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Demotion_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.ChangePosition.Lateral">
+      <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_1" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_2" movable="false" deletable="false">
+        <value name="PreviousPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PreviousPosition</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_3" movable="false" deletable="false">
+        <value name="NewPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">NewPosition</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Personnel.ChangePosition.Lateral_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.ChangePosition.Promotion">
+      <value name="part_0"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_1" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_2" movable="false" deletable="false">
+        <value name="PreviousPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PreviousPosition</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_3" movable="false" deletable="false">
+        <value name="NewPosition"><block type="variables_get"><field name="VAR" variabletype="kairos_var">NewPosition</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Personnel.ChangePosition.Promotion_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.Elect">
+      <value name="part_0"><block type="kairos_event_Personnel.Elect_part_0" movable="false" deletable="false">
+        <value name="Voter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Voter</field></block></value>
+        <value name="Candidate"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Candidate</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.Elect_part_1" movable="false" deletable="false">
+        <value name="Position"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Position</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.Elect_part_2" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.EndPosition">
+      <value name="part_0"><block type="kairos_event_Personnel.EndPosition_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.EndPosition_part_1" movable="false" deletable="false">
+        <value name="Position"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Position</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.EndPosition_part_2" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.EndPosition_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Personnel.StartPosition">
+      <value name="part_0"><block type="kairos_event_Personnel.StartPosition_part_0" movable="false" deletable="false">
+        <value name="Employee"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Employee</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Personnel.StartPosition_part_1" movable="false" deletable="false">
+        <value name="Position"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Position</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Personnel.StartPosition_part_2" movable="false" deletable="false">
+        <value name="PlaceOfEmployment"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PlaceOfEmployment</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Personnel.StartPosition_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Transaction" categorystyle="list_category">
+  <block type="kairos_event_Transaction.AidBetweenGovernments">
+      <value name="part_0"><block type="kairos_event_Transaction.AidBetweenGovernments_part_0" movable="false" deletable="false">
+        <value name="Giver"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Giver</field></block></value>
+        <value name="ArtifactMoney"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ArtifactMoney</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Transaction.AidBetweenGovernments_part_1" movable="false" deletable="false">
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Transaction.AidBetweenGovernments_part_2" movable="false" deletable="false">
+        <value name="Beneficiary"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Beneficiary</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Transaction.AidBetweenGovernments_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Transaction.Donation">
+      <value name="part_0"><block type="kairos_event_Transaction.Donation_part_0" movable="false" deletable="false">
+        <value name="Giver"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Giver</field></block></value>
+        <value name="ArtifactMoney"><block type="variables_get"><field name="VAR" variabletype="kairos_var">ArtifactMoney</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Transaction.Donation_part_1" movable="false" deletable="false">
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Transaction.Donation_part_2" movable="false" deletable="false">
+        <value name="Beneficiary"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Beneficiary</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Transaction.Donation_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+  <block type="kairos_event_Transaction.ExchangeBuySell">
+      <value name="part_0"><block type="kairos_event_Transaction.ExchangeBuySell_part_0" movable="false" deletable="false">
+        <value name="Giver"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Giver</field></block></value>
+        <value name="AcquiredEntity"><block type="variables_get"><field name="VAR" variabletype="kairos_var">AcquiredEntity</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Transaction.ExchangeBuySell_part_1" movable="false" deletable="false">
+        <value name="Recipient"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Recipient</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Transaction.ExchangeBuySell_part_2" movable="false" deletable="false">
+        <value name="PaymentBarter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">PaymentBarter</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Transaction.ExchangeBuySell_part_3" movable="false" deletable="false">
+        <value name="Beneficiary"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Beneficiary</field></block></value>
+      </block></value>
+      <value name="part_4"><block type="kairos_event_Transaction.ExchangeBuySell_part_4" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<category name="Vote" categorystyle="list_category">
+  <block type="kairos_event_Vote.Vote">
+      <value name="part_0"><block type="kairos_event_Vote.Vote_part_0" movable="false" deletable="false">
+        <value name="Voter"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Voter</field></block></value>
+        <value name="Candidate"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Candidate</field></block></value>
+      </block></value>
+      <value name="part_1"><block type="kairos_event_Vote.Vote_part_1" movable="false" deletable="false">
+        <value name="Ballot"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Ballot</field></block></value>
+      </block></value>
+      <value name="part_2"><block type="kairos_event_Vote.Vote_part_2" movable="false" deletable="false">
+        <value name="Result"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Result</field></block></value>
+      </block></value>
+      <value name="part_3"><block type="kairos_event_Vote.Vote_part_3" movable="false" deletable="false">
+        <value name="Place"><block type="variables_get"><field name="VAR" variabletype="kairos_var">Place</field></block></value>
+      </block></value>
+  </block>
+</category>
+<sep></sep>
+<category name="Control blocks" categorystyle="variable_category">
+  <block type="kairos_control_parallel"></block>
+  <block type="kairos_control_multivar_2"></block>
+  <block type="kairos_control_multivar_3"></block>
+  <block type="kairos_control_multivar_4"></block>
+  <block type="kairos_control_multivar_5"></block>
+</category>
+</xml>
 
 
 
