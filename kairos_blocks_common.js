@@ -321,7 +321,9 @@ function createVariable(button) {
         var dom = Blockly.Xml.textToDom(xml);
         var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
         var block = workspace.getBlockById(new_block_id);
-        block.moveBy(Math.random() * 450 + 45, Math.random() * 450 + 40);
+        var metrics = workspace.getMetrics();
+        var rnd_x = Math.random() * 0.5 + 0.25, rnd_y = Math.random() * 0.5 + 0.25;
+        block.moveBy((rnd_x * metrics.viewWidth + metrics.viewLeft) / workspace.scale, (rnd_y * metrics.viewHeight + metrics.viewTop) / workspace.scale);
         Blockly.hideChaff();
     })
 }
