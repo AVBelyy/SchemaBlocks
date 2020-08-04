@@ -408,6 +408,10 @@ function logger(e) {
 
   <div id="blocklyDiv"></div>
 
+  <div id="settings" style="display: flex; flex-flow: column; height: 95%">
+
+  <div>
+
   <h1>KAIROS schema UI</h1>
 
   <form id="options" style="display: none">
@@ -424,14 +428,14 @@ function logger(e) {
     </select>
   </form>
   <p>
-    <input type="button" value="Export to Blockly XML" onclick="toXml()">
+    <input type="button" value="Export to XML" onclick="toXml()">
     &nbsp;
-    <input type="button" value="Import from Blockly XML" onclick="fromXml()" id="import">
+    <input type="button" value="Import from XML" onclick="fromXml()" id="import">
     &nbsp;
 <!--    <input type="button" value="To JavaScript" onclick="toCode('JavaScript')">-->
     &nbsp;
     <br><br>
-    <textarea id="importExport" style="width: 26%; height: 12em"
+    <textarea id="importExport" style="width: 95%; height: 150px"
       onchange="taChange();" onkeyup="taChange()"></textarea>
   </p>
 
@@ -449,7 +453,11 @@ function logger(e) {
     </li>
   </ul>
 
-  <div id="typeCheckVars"></div>
+  </div>
+
+  <div id="typeCheckVars" style="overflow: scroll;"></div>
+  
+  </div>
 
 
   <!-- The next three blocks of XML are sample toolboxes for testing basic
