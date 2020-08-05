@@ -260,7 +260,13 @@ function typecheck(ws) {
         }
         var inst_handler = "instantiateVar(\"" + typeCheckVarDescr[i][0] + "\")";
         var add_cons_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
-        typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + typeCheckVarDescr[i][1].join(", ") + "<br>";
+        var var_types_html = [];
+        for (var j = 0; j < typeCheckVarDescr[i][1].length; j++) {
+            var type_name = typeCheckVarDescr[i][1][j];
+            var type_tooltip = slot_types[type_name] || "";
+            var_types_html.push("<span title='" + type_tooltip + "'>" + type_name + "</span>");
+        }
+        typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + var_types_html.join(", ") + "<br>";
         prev_var_name = typeCheckVarDescr[i][0];
     }
     document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
