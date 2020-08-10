@@ -322,7 +322,7 @@ function workspaceOnChangeListener(e) {
 
 function createVariable(button) {
     Blockly.Variables.promptName('Enter variable name:', '', function(var_name) {
-        var xml = '<block type="variables_get"><field name="VAR" variabletype="kairos_var">' + var_name + '</field></block>';
+        var xml = '<block type="variables_get"><field name="VAR">' + var_name + '</field></block>';
         xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
         var dom = Blockly.Xml.textToDom(xml);
         var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
