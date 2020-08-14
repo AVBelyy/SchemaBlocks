@@ -34,10 +34,11 @@ class Slot:
             'name': self.name,
             'role': self.role,
             'refvar': self.refvar,
-            'entityTypes': self.types
+            'entityTypes': self.types,
+            'reference': self.ref
         })
-        if self.ref is not None:
-            out['reference'] = self.ref
+        if self.ref is None:
+            del out['reference']
         return out
 
     @staticmethod
@@ -48,6 +49,7 @@ class Slot:
         slot_types = [f'kairos:Primitives/Entities/{st.upper()}' for st in slot_types]
         slot_ref = f'wiki:{var["ref"]}' if var['ref'] else None
         return Slot(slot_role_id, slot_id, slot_name, var_id, slot_types, slot_ref)
+
 
 class Step:
     def __init__(self, type, id, name, comment, slots):
@@ -92,20 +94,22 @@ class Step:
                 slot_name = slot_id[len(slot_id_prefix) + 1:]  # to ensure slot names are unique across the step
                 slot_ont_types = events_args[step_type][slot_role]
                 sbs.vars[slot_var_id]['steps_slots'].add((step_type, slot_role))
-                new_slot = Slot.from_var(slot_role_id, slot_id, slot_name, slot_ont_types, slot_var_id, sbs.vars[slot_var_id])
+                new_slot = Slot.from_var(slot_role_id, slot_id, slot_name, slot_ont_types, slot_var_id,
+                                         sbs.vars[slot_var_id])
                 step_slots.append(new_slot)
 
         return Step(step_type_id, step_id, step_name, step_comment, step_slots)
 
     def to_json_ld(self):
-        out = collections.OrderedDict( {
+        out = collections.OrderedDict({
             '@id': self.id,
             'name': self.name,
             '@type': self.type,
+            'comment': self.comment,
             'participants': [slot.to_json_ld() for slot in self.slots]
         })
-        if self.comment is not None:
-            out['comment'] = self.comment
+        if self.comment is None:
+            del out['comment']
         return out
 
 
@@ -123,14 +127,15 @@ class Schema:
         out = collections.OrderedDict({
             '@id': self.id,
             'name': self.name,
+            'description': self.descr,
             'version': schema_version,
             'steps': [step.to_json_ld() for step in self.steps],
             'order': self.order,
             'entityRelations': self.rels,
             'slots': self.slots
         })
-        if self.descr is not None:
-            out['description'] = self.descr
+        if self.descr is None:
+            del out['description']
         return out
 
     @staticmethod
@@ -152,7 +157,9 @@ class Schema:
 
         # Get all defined variables
         vars_root = xpath('b:variables/b:variable', tree_root)
-        vars = {var.get('id'): {'name': var.text, 'types': None, 'ref': None, 'steps_slots': set(), 'valid_types': set()} for var in vars_root}
+        vars = {
+            var.get('id'): {'name': var.text, 'types': None, 'ref': None, 'steps_slots': set(), 'valid_types': set()}
+            for var in vars_root}
 
         sbs = SchemaBuilderState(schema_id, vars)
 
@@ -166,7 +173,8 @@ class Schema:
 
         # Typecheck variables
         for var_id, var in sbs.vars.items():
-            valid_types = set.intersection(*[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
+            valid_types = set.intersection(
+                *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
             sbs.vars[var_id]['valid_types'] = list(valid_types)
 
         # Build relations
@@ -188,10 +196,11 @@ class Schema:
                 '@id': new_slot.id,
                 'roleName': new_slot.name,
                 'refvar': new_slot.refvar,
-                'entityTypes': new_slot.types
+                'entityTypes': new_slot.types,
+                'reference': new_slot.ref
             })
-            if new_slot.ref is not None:
-                new_slot_descr['reference'] = new_slot.ref
+            if new_slot.ref is None:
+                del new_slot_descr['reference']
             slots.append(new_slot_descr)
 
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)

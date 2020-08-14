@@ -114,6 +114,7 @@ Blockly.defineBlocksWithJsonArray([
 
 // Extensions
 
+/*
 Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN = {
     incrName: function(varName) {
         if (/\w+_\d+/.test(varName)) {
@@ -157,9 +158,10 @@ Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN = {
         }
     }
 };
+*/
 
-Blockly.Extensions.registerMixin('kairos_events_checkVarsNamesAndTypes',
-    Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN);
+// Blockly.Extensions.registerMixin('kairos_events_checkVarsNamesAndTypes',
+//     Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN);
 
 function slots2types(var_slots) {
     var_slots = Array.from(var_slots);
@@ -178,7 +180,7 @@ function slots2types(var_slots) {
     return types;
 }
 
-function typecheck(ws) {
+function typecheck() {
     function get_all_vars(block) {
         if (block.type == 'variables_get') {
             return [block];
@@ -198,7 +200,7 @@ function typecheck(ws) {
     }
 
     var vars_slots = {};
-    var blocks = ws.getAllBlocks(false);
+    var blocks = workspace.getAllBlocks(false);
     for (var i = 0; i < blocks.length; i++) {
         var block = blocks[i];
         if (block.type.includes('kairos_event_') && block.type.includes('_part_')) {
@@ -310,23 +312,65 @@ function addConstraint(var_name, var_types) {
 function setTypecheck(new_typecheck_value) {
     is_enabled_typecheck = new_typecheck_value;
     if (is_enabled_typecheck) {
-        typecheck(workspace);
+        typecheck();
     }
 }
 
 function workspaceOnChangeListener(e) {
     if (is_enabled_typecheck) {
-        typecheck(workspace);
+        typecheck();
+    }
+    if (e.type === Blockly.Events.UI && e.element === "click") {
+        var block = workspace.getBlockById(e.blockId);
+        if (block.type.startsWith("kairos_event_")) {
+            var event_and_arg_name = block.type.substr("kairos_event_".length).split("_arg_");
+            if (event_and_arg_name.length === 2) {
+                addNewVariable(block.getParent(), event_and_arg_name[0], event_and_arg_name[1]);
+            }
+        }
     }
 }
 
-function createVariable(button) {
+function addNewVariable(parent_block, event_name, arg_name) {
+    var arg_connection = parent_block.getInput(arg_name).connection;
+    var var_block = createNamedVariable(arg_name, true);
+    arg_connection.connect(var_block.outputConnection);
+}
+
+function createNamedVariable(var_name, is_unique_name) {
+    function incrName(varName) {
+        if (/\w+_\d+/.test(varName)) {
+            var res = varName.split('_');
+            return res[0] + '_' + (parseInt(res[1]) + 1).toString();
+        } else {
+            return varName + "_2";
+        }
+    }
+
+    if (is_unique_name) {
+        var all_used_var_models = workspace.getAllVariables();
+        var inv_used_vars_set = new Set();
+        all_used_var_models.forEach(function(used_var) {
+            inv_used_vars_set.add(used_var.name);
+        });
+        while (inv_used_vars_set.has(var_name)) {
+            var_name = incrName(var_name);
+        }
+    }
+    var xml = '<block type="variables_get"><field name="VAR">' + var_name + '</field></block>';
+    xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
+    var dom = Blockly.Xml.textToDom(xml);
+    var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+    var block = workspace.getBlockById(new_block_id);
+    return block;
+}
+
+function createVariableHandler(button) {
     Blockly.Variables.promptName('Enter variable name:', '', function(var_name) {
-        var xml = '<block type="variables_get"><field name="VAR">' + var_name + '</field></block>';
-        xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
-        var dom = Blockly.Xml.textToDom(xml);
-        var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
-        var block = workspace.getBlockById(new_block_id);
+        if (!var_name) {
+            return;
+        }
+        var block = createNamedVariable(var_name, false);
         var metrics = workspace.getMetrics();
         var rnd_x = Math.random() * 0.5 + 0.25, rnd_y = Math.random() * 0.5 + 0.25;
         block.moveBy((rnd_x * metrics.viewWidth + metrics.viewLeft) / workspace.scale, (rnd_y * metrics.viewHeight + metrics.viewTop) / workspace.scale);
