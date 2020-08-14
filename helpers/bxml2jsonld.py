@@ -312,7 +312,7 @@ if __name__ == '__main__':
     vendor_id = args.vid
     schema_version = datetime.now().strftime('%m/%d/%Y')
 
-    with open('../kairos_events.pkl', 'rb') as fin:
+    with open('kairos_events.pkl', 'rb') as fin:
         events = pickle.load(fin)
     events_args = {k: dict(v['args']) for k, v in events.items()}
 
