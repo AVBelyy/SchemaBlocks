@@ -20,10 +20,11 @@ def xpath(query, root):
 
 
 class Slot:
-    def __init__(self, role, id, name, types, ref):
+    def __init__(self, role, id, name, refvar, types, ref):
         self.role = role
         self.id = id
         self.name = name
+        self.refvar = refvar
         self.types = types
         self.ref = ref
 
@@ -32,12 +33,21 @@ class Slot:
             '@id': self.id,
             'name': self.name,
             'role': self.role,
+            'refvar': self.refvar,
             'entityTypes': self.types
         })
         if self.ref is not None:
             out['reference'] = self.ref
         return out
 
+    @staticmethod
+    def from_var(slot_role_id, slot_id, slot_name, slot_types, var_id, var):
+        if slot_types is None:
+            slot_types = []
+        slot_types = sorted(slot_types)
+        slot_types = [f'kairos:Primitives/Entities/{st.upper()}' for st in slot_types]
+        slot_ref = f'wiki:{var["ref"]}' if var['ref'] else None
+        return Slot(slot_role_id, slot_id, slot_name, var_id, slot_types, slot_ref)
 
 class Step:
     def __init__(self, type, id, name, comment, slots):
@@ -80,27 +90,19 @@ class Step:
                 slot_name = sbs.vars[slot_var_id]['name']
                 slot_id = sbs.gen_unique_id(slot_name, slot_id_prefix)
                 slot_name = slot_id[len(slot_id_prefix) + 1:]  # to ensure slot names are unique across the step
-                slot_types = sbs.vars[slot_var_id]['types']
                 slot_ont_types = events_args[step_type][slot_role]
-                if slot_types is None:
-                    slot_types = slot_ont_types
-                else:
-                    slot_types = [st for st in slot_types if st in slot_ont_types]
-                    if len(slot_types) == 0:
-                        slot_types = slot_ont_types
-                slot_types = sorted(slot_types)
-                slot_types = [f'kairos:Primitives/Entities/{st.upper()}' for st in slot_types]
-                slot_ref = sbs.vars[slot_var_id]['ref']
-                sbs.gen_coref(slot_var_id, slot_id)
-                step_slots.append(Slot(slot_role_id, slot_id, slot_name, slot_types, slot_ref))
+                sbs.vars[slot_var_id]['steps_slots'].add((step_type, slot_role))
+                new_slot = Slot.from_var(slot_role_id, slot_id, slot_name, slot_ont_types, slot_var_id, sbs.vars[slot_var_id])
+                step_slots.append(new_slot)
 
         return Step(step_type_id, step_id, step_name, step_comment, step_slots)
 
     def to_json_ld(self):
         out = collections.OrderedDict( {
             '@id': self.id,
+            'name': self.name,
             '@type': self.type,
-            'slots': [slot.to_json_ld() for slot in self.slots]
+            'participants': [slot.to_json_ld() for slot in self.slots]
         })
         if self.comment is not None:
             out['comment'] = self.comment
@@ -108,13 +110,14 @@ class Step:
 
 
 class Schema:
-    def __init__(self, id, name, descr, steps, rels, order):
+    def __init__(self, id, name, descr, steps, rels, order, slots):
         self.id = id
         self.name = name
         self.descr = descr
         self.steps = steps
         self.rels = rels
         self.order = order
+        self.slots = slots
 
     def to_json_ld(self):
         out = collections.OrderedDict({
@@ -122,8 +125,9 @@ class Schema:
             'name': self.name,
             'version': schema_version,
             'steps': [step.to_json_ld() for step in self.steps],
-            'entityRelations': self.rels,
             'order': self.order,
+            'entityRelations': self.rels,
+            'slots': self.slots
         })
         if self.descr is not None:
             out['description'] = self.descr
@@ -148,7 +152,7 @@ class Schema:
 
         # Get all defined variables
         vars_root = xpath('b:variables/b:variable', tree_root)
-        vars = {var.get('id'): {'name': var.text, 'types': None, 'ref': None} for var in vars_root}
+        vars = {var.get('id'): {'name': var.text, 'types': None, 'ref': None, 'steps_slots': set(), 'valid_types': set()} for var in vars_root}
 
         sbs = SchemaBuilderState(schema_id, vars)
 
@@ -160,19 +164,37 @@ class Schema:
         schema_cur_step = xpath('b:statement[@name="DO"]/b:block', schema_block)
         steps = Schema._process_steps(schema_cur_step, sbs, None)
 
+        # Typecheck variables
+        for var_id, var in sbs.vars.items():
+            valid_types = set.intersection(*[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
+            sbs.vars[var_id]['valid_types'] = list(valid_types)
+
         # Build relations
         rels = []
-        for subj, objs in sbs.sameas_rel.items():
-            rel = {
-                'relationSubject': subj,
-                'relations': [
-                    {'relationPredicate': 'kairos:Relations/sameAs', 'relationObject': obj}
-                    for obj in objs
-                ]
-            }
-            rels.append(rel)
 
-        return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order)
+        # Fill out slots (added in SDF v0.8)
+        slots = []
+        for var_id, var in sbs.vars.items():
+            slot_role_name = var['name']
+            slot_types = var['types']
+            slot_valid_types = var['valid_types']
+            if slot_types:
+                slot_types = [slot_type for slot_type in slot_types if slot_type in slot_valid_types]
+            if not slot_types:
+                slot_types = slot_valid_types
+            slot_id = sbs.gen_unique_id(slot_role_name, f'{schema_id}/Slots')
+            new_slot = Slot.from_var(None, slot_id, slot_role_name, slot_types, var_id, var)
+            new_slot_descr = collections.OrderedDict({
+                '@id': new_slot.id,
+                'roleName': new_slot.name,
+                'refvar': new_slot.refvar,
+                'entityTypes': new_slot.types
+            })
+            if new_slot.ref is not None:
+                new_slot_descr['reference'] = new_slot.ref
+            slots.append(new_slot_descr)
+
+        return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
 
     @staticmethod
     def _process_steps(cur_step, sbs, prev_steps, is_nested=False):
@@ -213,8 +235,6 @@ class SchemaBuilderState:
         self.vars = vars
         self.ids_set = set()
         self.order = []
-        self.sameas_rel = collections.defaultdict(list)
-        self.coref_slots = {}
 
     @staticmethod
     def get_id(seed, id_prefix):
@@ -256,14 +276,6 @@ class SchemaBuilderState:
                 if order_type == 'before_after':
                     self.order.append({'before': prev_step.id, 'after': next_step.id})
 
-    def gen_coref(self, slot_var_id, slot_id):
-        if slot_var_id not in self.coref_slots:
-            self.coref_slots[slot_var_id] = slot_id
-        else:
-            first_var_id = self.coref_slots[slot_var_id]
-            assert first_var_id != slot_id
-            self.sameas_rel[first_var_id].append(slot_id)
-
 
 if __name__ == '__main__':
     # TODO: beware of all xmlns, other than 'b', that might "randomly" occur
@@ -276,14 +288,12 @@ if __name__ == '__main__':
         events = pickle.load(fin)
     events_args = {k: dict(v['args']) for k, v in events.items()}
 
-    with open('context-v0.7.json', 'r') as fin:
-        context = json.load(fin)
-
     schema = Schema.from_xml(bxml_path)
     out = collections.OrderedDict({
-        '@context': context,
-        'schemas': [schema.to_json_ld()],
-        'sdfVersion': '0.7'
+        '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v0.8.jsonld',
+        '@id': f'{vendor_id}:Submissions/TA1/Quizlet3',
+        'sdfVersion': '0.8',
+        'schemas': [schema.to_json_ld()]
     })
     with open(jsonld_path, 'w') as fout:
         json.dump(out, fout, indent=2)
