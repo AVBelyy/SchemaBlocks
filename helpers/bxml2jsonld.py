@@ -1,26 +1,86 @@
-import sys
+import lxml
 import json
 import regex
 import pickle
+import argparse
 import itertools
 import collections
 
 from lxml import etree
+from typing import List, Dict
 from datetime import datetime
 
 nsmap = {'b': 'https://developers.google.com/blockly/xml',
          'x': 'http://www.w3.org/1999/xhtml'}
 
 
-def xpath(query, root):
+def xpath(query: str, root: lxml.etree.Element) -> List[lxml.etree.Element]:
     return root.xpath(query, namespaces=nsmap)
 
 
-# TODO: specify all class properties' types
+class SchemaBuilderState:
+    def __init__(self, schema_id, vars):
+        self.schema_id = schema_id
+        self.vars = vars
+        self.ids_set = set()
+        self.order = []
+
+    @staticmethod
+    def get_id(seed: str, id_prefix: str) -> str:
+        """
+        Convert an arbitrary identifier (e.g. schema or step name) into a valid JSON-LD @id.
+        :param seed: arbitrary identified
+        :param id_prefix: JSON-LD compliant prefix
+        :return: JSON-LD compliant @id
+        """
+        new_id = regex.sub(r'[\s/]+', '_', seed)
+        if id_prefix:
+            return id_prefix + '/' + new_id
+        else:
+            return new_id
+
+    def gen_unique_id(self, seed: str, id_prefix: str = '') -> str:
+        """
+        Generate unique JSON-LD @id, adding numerical suffixes if needed.
+        :param seed: initial ID (gets incremented if needed)
+        :param id_prefix: optional ID prefix (does not change)
+        :return: unique (across SBS instance) JSON-LD @id
+        """
+        seed = self.get_id(seed, id_prefix)
+        if seed not in self.ids_set:
+            self.ids_set.add(seed)
+            return seed
+        else:
+            match = regex.findall(r'(^.*)_(\d+)$', seed)
+            if len(match) == 1:
+                new_id_prefix, num_suffix = match[0]
+                num_suffix = int(num_suffix)
+            else:
+                new_id_prefix = seed
+                num_suffix = 1
+            while True:
+                num_suffix += 1
+                new_id = f'{new_id_prefix}_{num_suffix}'
+                if new_id not in self.ids_set:
+                    self.ids_set.add(new_id)
+                    return new_id
+
+    def gen_order(self, prev_steps: List, next_steps: List, order_type: str = 'before_after'):
+        """
+        Generate 'order' constraint(s) from consecutive schema steps
+        :param prev_steps: list of preceding steps
+        :param next_steps: list of following steps
+        :param order_type: constant specifying a desired type of order constraint
+        :return:
+        """
+        for prev_step in prev_steps:
+            for next_step in next_steps:
+                if order_type == 'before_after':
+                    self.order.append(collections.OrderedDict({'before': prev_step.id, 'after': next_step.id}))
 
 
 class Slot:
-    def __init__(self, role, id, name, refvar, types, ref):
+    def __init__(self, role: str, id: str, name: str, refvar: str, types: List[str], ref: str):
         self.role = role
         self.id = id
         self.name = name
@@ -28,8 +88,8 @@ class Slot:
         self.types = types
         self.ref = ref
 
-    def to_json_ld(self):
-        out = collections.OrderedDict({
+    def to_json_ld(self) -> collections.OrderedDict:
+        out_slot = collections.OrderedDict({
             '@id': self.id,
             'name': self.name,
             'role': self.role,
@@ -38,11 +98,11 @@ class Slot:
             'reference': self.ref
         })
         if self.ref is None:
-            del out['reference']
-        return out
+            del out_slot['reference']
+        return out_slot
 
     @staticmethod
-    def from_var(slot_role_id, slot_id, slot_name, slot_types, var_id, var):
+    def from_var(slot_role_id: str, slot_id: str, slot_name: str, slot_types: List, var_id: str, var: Dict):
         if slot_types is None:
             slot_types = []
         slot_types = sorted(slot_types)
@@ -52,15 +112,27 @@ class Slot:
 
 
 class Step:
-    def __init__(self, type, id, name, comment, slots):
+    def __init__(self, type: str, id: str, name: str, comment: str, slots: List[Slot]):
         self.type = type
         self.id = id
         self.name = name
         self.comment = comment
         self.slots = slots
 
+    def to_json_ld(self) -> collections.OrderedDict:
+        out_step = collections.OrderedDict({
+            '@id': self.id,
+            'name': self.name,
+            '@type': self.type,
+            'comment': self.comment,
+            'participants': [slot.to_json_ld() for slot in self.slots]
+        })
+        if self.comment is None:
+            del out_step['comment']
+        return out_step
+
     @staticmethod
-    def from_xml_block(cur_step, sbs):
+    def from_xml_block(cur_step: lxml.etree.Element, sbs: SchemaBuilderState):
         valid_prefix = 'kairos_event_'
         block_type = cur_step.get('type')
         assert block_type.startswith(valid_prefix)
@@ -100,21 +172,10 @@ class Step:
 
         return Step(step_type_id, step_id, step_name, step_comment, step_slots)
 
-    def to_json_ld(self):
-        out = collections.OrderedDict({
-            '@id': self.id,
-            'name': self.name,
-            '@type': self.type,
-            'comment': self.comment,
-            'participants': [slot.to_json_ld() for slot in self.slots]
-        })
-        if self.comment is None:
-            del out['comment']
-        return out
-
 
 class Schema:
-    def __init__(self, id, name, descr, steps, rels, order, slots):
+    def __init__(self, id: str, name: str, descr: str, steps: List[Step], rels: List,
+                 order: List[collections.OrderedDict], slots: List[collections.OrderedDict]):
         self.id = id
         self.name = name
         self.descr = descr
@@ -123,8 +184,8 @@ class Schema:
         self.order = order
         self.slots = slots
 
-    def to_json_ld(self):
-        out = collections.OrderedDict({
+    def to_json_ld(self) -> collections.OrderedDict:
+        out_schema = collections.OrderedDict({
             '@id': self.id,
             'name': self.name,
             'description': self.descr,
@@ -135,12 +196,12 @@ class Schema:
             'slots': self.slots
         })
         if self.descr is None:
-            del out['description']
-        return out
+            del out_schema['description']
+        return out_schema
 
     @staticmethod
-    def from_xml(xml_path):
-        tree = etree.parse(xml_path)  # TODO: handle errors
+    def from_xml(xml_path: str):
+        tree = etree.parse(xml_path)
         tree_root = tree.getroot()
 
         # Get schema block
@@ -191,7 +252,7 @@ class Schema:
             if not slot_types:
                 slot_types = slot_valid_types
             slot_id = sbs.gen_unique_id(slot_role_name, f'{schema_id}/Slots')
-            new_slot = Slot.from_var(None, slot_id, slot_role_name, slot_types, var_id, var)
+            new_slot = Slot.from_var('', slot_id, slot_role_name, slot_types, var_id, var)
             new_slot_descr = collections.OrderedDict({
                 '@id': new_slot.id,
                 'roleName': new_slot.name,
@@ -206,7 +267,8 @@ class Schema:
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
 
     @staticmethod
-    def _process_steps(cur_step, sbs, prev_steps, is_nested=False):
+    def _process_steps(cur_step: lxml.etree.Element, sbs: SchemaBuilderState, prev_steps,
+                       is_nested: bool = False) -> List[Step]:
         steps = []
         while len(cur_step) > 0:
             cur_step = cur_step[0]
@@ -223,7 +285,7 @@ class Schema:
         return list(itertools.chain.from_iterable(steps))
 
     @staticmethod
-    def _process_tcs(cur_tc, sbs):
+    def _process_tcs(cur_tc: lxml.etree.Element, sbs: SchemaBuilderState):
         while len(cur_tc) > 0:
             cur_tc = cur_tc[0]
             assert cur_tc.get('type') == 'kairos_control_type_constraint'
@@ -238,71 +300,31 @@ class Schema:
             cur_tc = xpath('b:next/b:block', cur_tc)
 
 
-class SchemaBuilderState:
-    def __init__(self, schema_id, vars):
-        self.schema_id = schema_id
-        self.vars = vars
-        self.ids_set = set()
-        self.order = []
-
-    @staticmethod
-    def get_id(seed, id_prefix):
-        """
-        Convert an arbitrary identifier (e.g. schema or step name) into a valid JSON-LD @id.
-        :param seed: arbitrary identified
-        :param id_prefix: JSON-LD compliant prefix
-        :return: JSON-LD compliant @id
-        """
-        new_id = regex.sub(r'[\s/]+', '_', seed)
-        if id_prefix:
-            return id_prefix + '/' + new_id
-        else:
-            return new_id
-
-    def gen_unique_id(self, seed, id_prefix=''):
-        seed = self.get_id(seed, id_prefix)
-        if seed not in self.ids_set:
-            self.ids_set.add(seed)
-            return seed
-        else:
-            match = regex.findall(r'(^.*)_(\d+)$', seed)
-            if len(match) == 1:
-                new_id_prefix, num_suffix = match[0]
-                num_suffix = int(num_suffix)
-            else:
-                new_id_prefix = seed
-                num_suffix = 1
-            while True:
-                num_suffix += 1
-                new_id = f'{new_id_prefix}_{num_suffix}'
-                if new_id not in self.ids_set:
-                    self.ids_set.add(new_id)
-                    return new_id
-
-    def gen_order(self, prev_steps, next_steps, order_type='before_after'):
-        for prev_step in prev_steps:
-            for next_step in next_steps:
-                if order_type == 'before_after':
-                    self.order.append({'before': prev_step.id, 'after': next_step.id})
-
-
 if __name__ == '__main__':
-    # TODO: beware of all xmlns, other than 'b', that might "randomly" occur
-    bxml_path = sys.argv[1]
-    jsonld_path = sys.argv[2]
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('inpath', type=str, help="input Blockly XML file path")
+    arg_parser.add_argument('outpath', type=str, help="output JSON-LD file path")
+    arg_parser.add_argument('--vid', type=str, help='vendor prefix for JSON-LD @id (default: jhu)', default='jhu')
+
+    args = arg_parser.parse_args()
+    bxml_path = args.inpath
+    jsonld_path = args.outpath
+    vendor_id = args.vid
     schema_version = datetime.now().strftime('%m/%d/%Y')
-    vendor_id = 'jhu'
 
     with open('../kairos_events.pkl', 'rb') as fin:
         events = pickle.load(fin)
     events_args = {k: dict(v['args']) for k, v in events.items()}
 
     schema = Schema.from_xml(bxml_path)
-    out = collections.OrderedDict({
+    out_jsonld = collections.OrderedDict({
         '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v0.8.jsonld',
         '@id': f'{vendor_id}:Submissions/TA1/Quizlet3',
         'sdfVersion': '0.8',
         'schemas': [schema.to_json_ld()]
     })
+
     with open(jsonld_path, 'w') as fout:
-        json.dump(out, fout, indent=2)
+        json.dump(out_jsonld, fout, indent=2)
+
+    print('Success!')
