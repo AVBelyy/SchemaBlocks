@@ -19,6 +19,8 @@ Step 6: validate JSON-LD schema with TA3 validator: [http://validation.kairos.ne
 
 ## Running XML-to-JSON-LD converter
 
+Make sure to use Python>=3.6
+
 Step 1: clone and `cd` into this repo
 
 Step 2: set up your favorite python virtual environment (e.g. virtualenv, conda)
