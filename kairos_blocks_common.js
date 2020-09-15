@@ -29,7 +29,7 @@ goog.provide('Blockly.Constants.Kairos');
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
 
-var events_connections = Object.keys(events_args).concat(["kairos_control_parallel", "kairos_control_xor"]);
+var events_connections = Object.keys(events_args).concat(["kairos_control_parallel", "kairos_control_linear", "kairos_control_xor"]);
 
 Blockly.defineBlocksWithJsonArray([
     {
@@ -59,6 +59,23 @@ Blockly.defineBlocksWithJsonArray([
     {
         "type": "kairos_control_parallel",
         "message0": "in any order",
+        "message1": "do %1",
+        "args1": [{
+            "type": "input_statement",
+            "name": "DO"
+        }],
+        "previousStatement": events_connections,
+        "nextStatement": events_connections,
+        "style": "list_blocks",
+        "extensions": [
+        ]
+    },
+]);
+
+Blockly.defineBlocksWithJsonArray([
+    {
+        "type": "kairos_control_linear",
+        "message0": "in linear order",
         "message1": "do %1",
         "args1": [{
             "type": "input_statement",
