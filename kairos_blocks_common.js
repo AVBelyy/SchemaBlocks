@@ -31,6 +31,8 @@ goog.require('Blockly.Blocks');
 
 var events_connections = Object.keys(events_args).concat(["kairos_control_parallel", "kairos_control_linear", "kairos_control_xor"]);
 
+var kairos_relation_types = ["kairos_control_type_constraint", "kairos_relation_Rel.Evaluate.Belief.CommittedBelief", "kairos_relation_Rel.Evaluate.Belief.NonCommittedBelief", "kairos_relation_Rel.Evaluate.Intent.Intent", "kairos_relation_Rel.Evaluate.Sentiment.Negative", "kairos_relation_Rel.Evaluate.Sentiment.Positive", "kairos_relation_Rel.Evaluate.Status.HoaxFraud", "kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.ControlTerritory", "kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.NationalityCitizen", "kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.OwnershipPossession", "kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.Unspecified", "kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.Ethnicity", "kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.NationalityCitizen", "kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.Unspecified", "kairos_relation_Rel.GeneralAffiliation.OrganizationPoliticalReligiousAffiliation.NationalityCitizen", "kairos_relation_Rel.GeneralAffiliation.OrganizationPoliticalReligiousAffiliation.Unspecified", "kairos_relation_Rel.GeneralAffiliation.OrganizationWebsite.OrganizationWebsite", "kairos_relation_Rel.GeneralAffiliation.Sponsorship.Unspecified", "kairos_relation_Rel.Information.Color.Color", "kairos_relation_Rel.Information.Make.Make", "kairos_relation_Rel.Measurement.Size.Count", "kairos_relation_Rel.Measurement.Size.HeightLengthWidth", "kairos_relation_Rel.Measurement.Size.Percentage", "kairos_relation_Rel.Measurement.Size.Unspecified", "kairos_relation_Rel.Measurement.Size.Weight", "kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Employment", "kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Membership", "kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Unspecified", "kairos_relation_Rel.OrganizationAffiliation.Founder.Founder", "kairos_relation_Rel.OrganizationAffiliation.Leadership.Government", "kairos_relation_Rel.OrganizationAffiliation.Leadership.HeadOfState", "kairos_relation_Rel.OrganizationAffiliation.Leadership.MilitaryPolice", "kairos_relation_Rel.OrganizationAffiliation.Leadership.Unspecified", "kairos_relation_Rel.PartWhole.Subsidiary.NationalityCitizen", "kairos_relation_Rel.PartWhole.Subsidiary.OrganizationSubsidiary", "kairos_relation_Rel.PartWhole.Subsidiary.Unspecified", "kairos_relation_Rel.PersonalSocial.Relationship.Political", "kairos_relation_Rel.PersonalSocial.Relationship.Unspecified", "kairos_relation_Rel.PersonalSocial.Role.ProfessionalRole", "kairos_relation_Rel.PersonalSocial.Role.TitleFormOfAddress", "kairos_relation_Rel.PersonalSocial.Role.Unspecified", "kairos_relation_Rel.Physical.LocatedNear.Surround", "kairos_relation_Rel.Physical.LocatedNear.Unspecified", "kairos_relation_Rel.Physical.OrganizationHeadquarters.OrganizationHeadquarters", "kairos_relation_Rel.Physical.Resident.Resident", "kairos_relation_Rel.ResponsibilityBlame.AssignBlame.AssignBlame", "kairos_relation_Rel.ResponsibilityBlame.ClaimResponsibility.ClaimResponsibility"]
+
 Blockly.defineBlocksWithJsonArray([
     {
         "type": "kairos_control_schema",
@@ -48,7 +50,7 @@ Blockly.defineBlocksWithJsonArray([
         "args2": [{
             "type": "input_statement",
             "name": "TC",
-            "check": "kairos_control_type_constraint",
+            "check": kairos_relation_types,
         }],
         "inputsInline": false,
         "style": "math_blocks",
@@ -145,6 +147,33 @@ Blockly.defineBlocksWithJsonArray([
         "style": "text_blocks",
     }
 ]);
+
+/*
+Blockly.defineBlocksWithJsonArray([
+    {
+        "type": "kairos_control_relation_constraint",
+        "message0": "assert relation %1 between %2 and %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR"
+            },
+            {
+                "type": "field_variable",
+                "name": "VAR"
+            },
+            {
+                "type": "field_variable",
+                "name": "VAR"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": [ "kairos_control_type_constraint", "kairos_control_relation_constraint"],
+        "nextStatement": [ "kairos_control_type_constraint", "kairos_control_relation_constraint"],
+        "style": "text_blocks",
+    }
+]);
+*/
 
 // Extensions
 
@@ -328,7 +357,7 @@ function addConstraint(var_name, var_types) {
         }
     }
 
-    var tc_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint' movable='false'>" +
+    var tc_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint' movable='true'>" +
         "<field name=\"VAR\">" + var_name + "</field>" +
         "<field name=\"TYPES\">" + var_types + "</field>" +
         "<field name=\"REF\"></field></block></xml>";
@@ -342,6 +371,7 @@ function addConstraint(var_name, var_types) {
         tc_connection.connect(block.previousConnection);
     }
 }
+
 
 function setTypecheck(new_typecheck_value) {
     is_enabled_typecheck = new_typecheck_value;
@@ -421,3 +451,4 @@ function kairos_init() {
     var block = workspace.getBlockById(new_block_id);
     block.moveBy(50, 50);
 }
+

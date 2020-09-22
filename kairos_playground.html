@@ -465,7 +465,7 @@ function logger(e) {
 
   <!-- toolbox-simple is an always-open flyout with no category menu.
   Always-open flyouts are a good idea if you have a small number of blocks. -->
-  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-kairos-blocks" style="display: none">
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox-kairos-blocks" style="display: none">
     <category name="ArtifactExistence" categorystyle="list_category">
       <block type="kairos_event_ArtifactExistence.DamageDestroyDisableDismantle.Damage">
         <field name="step_name">AE.DamageDestroyDisableDismantle.Damage</field>
@@ -1525,8 +1525,209 @@ function logger(e) {
       <block type="kairos_control_multivar_4"></block>
       <block type="kairos_control_multivar_5"></block>
     </category>
-  </xml>
-
-
+    <sep></sep>
+    <category name="Rel.Evaluate" categorystyle="logic_category">
+        <block type="kairos_relation_Rel.Evaluate.Belief.CommittedBelief">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Evaluate.Belief.NonCommittedBelief">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Evaluate.Intent.Intent">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Evaluate.Sentiment.Negative">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Evaluate.Sentiment.Positive">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Evaluate.Status.HoaxFraud">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.GeneralAffiliation" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.ControlTerritory">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.NationalityCitizen">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.OwnershipPossession">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.ArtifactPoliticalOrganizationReligiousAffiliation.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.Ethnicity">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.NationalityCitizen">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.MemberOriginReligionEthnicity.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.OrganizationPoliticalReligiousAffiliation.NationalityCitizen">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.OrganizationPoliticalReligiousAffiliation.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.OrganizationWebsite.OrganizationWebsite">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.GeneralAffiliation.Sponsorship.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.Information" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.Information.Color.Color">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Information.Make.Make">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.Measurement" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.Measurement.Size.Count">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Measurement.Size.HeightLengthWidth">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Measurement.Size.Percentage">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Measurement.Size.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Measurement.Size.Weight">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.OrganizationAffiliation" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Employment">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Membership">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.EmploymentMembership.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.Founder.Founder">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.Leadership.Government">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.Leadership.HeadOfState">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.Leadership.MilitaryPolice">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.OrganizationAffiliation.Leadership.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.PartWhole" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.PartWhole.Subsidiary.NationalityCitizen">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PartWhole.Subsidiary.OrganizationSubsidiary">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PartWhole.Subsidiary.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.PersonalSocial" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.PersonalSocial.Relationship.Political">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PersonalSocial.Relationship.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PersonalSocial.Role.ProfessionalRole">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PersonalSocial.Role.TitleFormOfAddress">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.PersonalSocial.Role.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.Physical" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.Physical.LocatedNear.Surround">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Physical.LocatedNear.Unspecified">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Physical.OrganizationHeadquarters.OrganizationHeadquarters">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.Physical.Resident.Resident">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+        <category name="Rel.ResponsibilityBlame" categorystyle="logic_category">
+          <block type="kairos_relation_Rel.ResponsibilityBlame.AssignBlame.AssignBlame">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+          <block type="kairos_relation_Rel.ResponsibilityBlame.ClaimResponsibility.ClaimResponsibility">
+                <field name="arg1">arg1</field>
+                <field name="arg2">arg2</field>
+        </block>
+        </category>
+    </xml>
 </body>
 </html>
