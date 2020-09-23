@@ -172,7 +172,6 @@ class Step:
 
         return Step(step_type_id, step_id, step_name, step_comment, step_slots)
 
-
 class Schema:
     def __init__(self, id: str, name: str, descr: str, steps: List[Step], rels: List,
                  order: List[collections.OrderedDict], slots: List[collections.OrderedDict]):
@@ -209,7 +208,7 @@ class Schema:
         assert len(schema_block) == 1
         schema_block = schema_block[0]
         schema_name = xpath('b:field[@name="NAME"]', schema_block)[0].text
-        schema_id = SchemaBuilderState.get_id(schema_name, f'{vendor_id}:Schemas')
+        schema_id = SchemaBuilderState.get_id(schema_name, f'{vendor_id}:Schemas')  #Will contain the prefix for jhu:Schemas
         schema_comment_block = xpath('b:comment', schema_block)
         if len(schema_comment_block) == 1:
             schema_comment = schema_comment_block[0].text
@@ -232,14 +231,17 @@ class Schema:
         schema_cur_step = xpath('b:statement[@name="DO"]/b:block', schema_block)
         steps = Schema._process_steps(schema_cur_step, sbs, None)
 
+
+        # Get schema relation constraints
+        schema_cur_rels = xpath('b:statement[@name="relations"]', schema_block)[0]
+        rels = Schema._process_rels(schema_cur_rels, steps)
+
         # Typecheck variables
         for var_id, var in sbs.vars.items():
             valid_types = set.intersection(
                 *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
             sbs.vars[var_id]['valid_types'] = list(valid_types)
 
-        # Build relations
-        rels = []
 
         # Fill out slots (added in SDF v0.8)
         slots = []
@@ -265,6 +267,49 @@ class Schema:
             slots.append(new_slot_descr)
 
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
+
+    @staticmethod
+    def _process_rels(cur_step: lxml.etree.Element, steps: List[Step], rel_name_prefix = "kairos:Primitives/Relations/"):
+        relation_subjs = {} #mapping from relation subjects to a list of (relation name, relation object) tuples
+        #first get entity names + references
+        refvar_id = {} #map refvar to id
+        for step in steps:
+            for slot in step.slots:
+                rv = slot.refvar
+                id_name = slot.id
+                #If this id is already in here but with a different name, let us know.
+                if rv in refvar_id and refvar_id[rv] != id_name:
+                    print(f'Entity reference {rv} has multiple slots names, double check your schema!')
+                refvar_id[rv] = id_name
+
+        for relation in xpath('.//b:block[starts-with(@type,"kairos_relation_Rel")]', cur_step):
+            relation_name = rel_name_prefix + relation.get('type').split("kairos_relation_Rel.")[1]
+            subj_id = xpath('b:field[@name="arg1"]', relation)[0].get('id')
+            obj_id = xpath('b:field[@name="arg2"]', relation)[0].get('id')
+            assert subj_id in refvar_id, f"Subject of relation {relation_name} not found in schema!"
+            assert obj_id in refvar_id, f"Object of relation {relation_name} not found in schema!"
+
+            subj_name = refvar_id[subj_id]
+            obj_name = refvar_id[obj_id]
+            if subj_name not in relation_subjs:
+                relation_subjs[subj_name] = [(relation_name, obj_name)]
+            else:
+                relation_subjs[subj_name].append((relation_name, obj_name))
+
+        #convert relation_subjs so it can be immediatly converted to json
+
+        rels = []
+        for subj, rel_obj in relation_subjs.items(): #subject_name, list of tuples
+            relations_for_subj = []
+            for rel_name, obj_name in rel_obj:
+                relations_for_subj.append({"relationPredicate":rel_name, "relationObject":obj_name})
+            rels.append({"relationSubject":subj, "relations":relations_for_subj})
+            
+            
+        return rels
+
+            
+
 
     @staticmethod
     def _process_steps(cur_step: lxml.etree.Element, sbs: SchemaBuilderState, prev_steps,
