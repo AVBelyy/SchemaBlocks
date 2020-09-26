@@ -283,25 +283,26 @@ class Schema:
                 refvar_id[rv] = id_name
 
         for relation in xpath('.//b:block[starts-with(@type,"kairos_relation_Rel")]', cur_step):
-            relation_name = rel_name_prefix + relation.get('type').split("kairos_relation_Rel.")[1]
+            rel_pred = rel_name_prefix + relation.get('type').split("kairos_relation_Rel.")[1]
+            rel_name = xpath('b:field[@name="rel_name"]', relation)[0].text
             subj_id = xpath('b:field[@name="arg1"]', relation)[0].get('id')
             obj_id = xpath('b:field[@name="arg2"]', relation)[0].get('id')
-            assert subj_id in refvar_id, f"Subject of relation {relation_name} not found in schema!"
-            assert obj_id in refvar_id, f"Object of relation {relation_name} not found in schema!"
+            assert subj_id in refvar_id, f"Subject of relation \"{rel_name}\" not found in schema!"
+            assert obj_id in refvar_id, f"Object of relation \"{rel_name}\" not found in schema!"
 
             subj_name = refvar_id[subj_id]
             obj_name = refvar_id[obj_id]
             if subj_name not in relation_subjs:
-                relation_subjs[subj_name] = [(relation_name, obj_name)]
+                relation_subjs[subj_name] = [(rel_name, rel_pred, obj_name)]
             else:
-                relation_subjs[subj_name].append((relation_name, obj_name))
+                relation_subjs[subj_name].append((rel_name, rel_pred, obj_name))
 
         #convert relation_subjs so it can be immediatly converted to json
         rels = []
         for subj, rel_obj in relation_subjs.items(): #subject_name, list of tuples
             relations_for_subj = []
-            for rel_name, obj_name in rel_obj:
-                relations_for_subj.append({"relationPredicate":rel_name, "relationObject":obj_name})
+            for rel_name, rel_pred, obj_name in rel_obj:
+                relations_for_subj.append({"name":rel_name, "relationPredicate":rel_pred, "relationObject":obj_name})
             rels.append({"relationSubject":subj, "relations":relations_for_subj})
 
         return rels
