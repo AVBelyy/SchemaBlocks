@@ -297,19 +297,14 @@ class Schema:
                 relation_subjs[subj_name].append((relation_name, obj_name))
 
         #convert relation_subjs so it can be immediatly converted to json
-
         rels = []
         for subj, rel_obj in relation_subjs.items(): #subject_name, list of tuples
             relations_for_subj = []
             for rel_name, obj_name in rel_obj:
                 relations_for_subj.append({"relationPredicate":rel_name, "relationObject":obj_name})
             rels.append({"relationSubject":subj, "relations":relations_for_subj})
-            
-            
+
         return rels
-
-            
-
 
     @staticmethod
     def _process_steps(cur_step: lxml.etree.Element, sbs: SchemaBuilderState, prev_steps,
@@ -318,6 +313,10 @@ class Schema:
         while len(cur_step) > 0:
             cur_step = cur_step[0]
             if cur_step.get('type') == 'kairos_control_parallel':
+                child_step = xpath('b:statement[@name="DO"]/b:block', cur_step)
+                new_steps = Schema._process_steps(child_step, sbs, prev_steps, is_nested=True)
+            elif cur_step.get('type') in ('kairos_control_xor', 'kairos_control_linear'):
+                # TODO: implement me!
                 child_step = xpath('b:statement[@name="DO"]/b:block', cur_step)
                 new_steps = Schema._process_steps(child_step, sbs, prev_steps, is_nested=True)
             else:
