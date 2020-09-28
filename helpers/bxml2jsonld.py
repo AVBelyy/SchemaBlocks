@@ -231,9 +231,8 @@ class Schema:
         schema_cur_step = xpath('b:statement[@name="DO"]/b:block', schema_block)
         steps = Schema._process_steps(schema_cur_step, sbs, None)
 
-
         # Get schema relation constraints
-        schema_cur_rels = xpath('b:statement[@name="relations"]', schema_block)[0]
+        schema_cur_rels = xpath('b:statement[@name="relations"]', schema_block)
         rels = Schema._process_rels(schema_cur_rels, steps)
 
         # Typecheck variables
@@ -269,7 +268,13 @@ class Schema:
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
 
     @staticmethod
-    def _process_rels(cur_step: lxml.etree.Element, steps: List[Step], rel_name_prefix = "kairos:Primitives/Relations/"):
+    def _process_rels(cur_rel: lxml.etree.Element, steps: List[Step], rel_pred_prefix = "kairos:Primitives/Relations/"):
+        if len(cur_rel) == 0:
+            return []
+        else:
+            # There is only one 'statement' block with relations in schema
+            cur_rel = cur_rel[0]
+
         relation_subjs = {} #mapping from relation subjects to a list of (relation name, relation object) tuples
         #first get entity names + references
         refvar_id = {} #map refvar to id
@@ -282,8 +287,8 @@ class Schema:
                     print(f'Entity reference {rv} has multiple slots names, double check your schema!')
                 refvar_id[rv] = id_name
 
-        for relation in xpath('.//b:block[starts-with(@type,"kairos_relation_Rel")]', cur_step):
-            rel_pred = rel_name_prefix + relation.get('type').split("kairos_relation_Rel.")[1]
+        for relation in xpath('.//b:block[starts-with(@type,"kairos_relation_Rel")]', cur_rel):
+            rel_pred = rel_pred_prefix + relation.get('type').split("kairos_relation_Rel.")[1]
             rel_name = xpath('b:field[@name="rel_name"]', relation)[0].text
             subj_id = xpath('b:field[@name="arg1"]', relation)[0].get('id')
             obj_id = xpath('b:field[@name="arg2"]', relation)[0].get('id')
