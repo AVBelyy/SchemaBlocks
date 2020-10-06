@@ -1,5 +1,6 @@
 .ipynb_checkpoints/
 .idea/
+helpers/kairos_events.pkl
 kairos_ontology.js
 kairos_blocks.xml
 kairos_blocks.js
