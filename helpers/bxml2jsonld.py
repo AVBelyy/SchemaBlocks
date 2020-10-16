@@ -238,9 +238,13 @@ class Schema:
 
         # Typecheck variables
         for var_id, var in sbs.vars.items():
-            valid_types = set.intersection(
-                *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
-            sbs.vars[var_id]['valid_types'] = list(valid_types)
+            # If the variable isn't participating in any slot, it can be ignored
+            if len(var['steps_slots']) > 0:
+                valid_types = set.intersection(
+                    *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
+                if len(valid_types) == 0:
+                    print(f'Warning: variable {var_id} has an invalid type based on the steps it participates in; the default types will be used for its slots')
+                sbs.vars[var_id]['valid_types'] = list(valid_types)
 
 
         # Fill out slots (added in SDF v0.8)
