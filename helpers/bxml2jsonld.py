@@ -76,7 +76,8 @@ class SchemaBuilderState:
         for prev_step in prev_steps:
             for next_step in next_steps:
                 if order_type == 'before_after':
-                    self.order.append(collections.OrderedDict({'before': prev_step.id, 'after': next_step.id}))
+                    order_id = self.schema_id + "/Order/BeforeAfter/" + str(len(self.order))
+                    self.order.append(collections.OrderedDict({'@id':order_id, 'before': prev_step.id, 'after': next_step.id}))
 
 
 class Slot:
@@ -199,7 +200,7 @@ class Schema:
         return out_schema
 
     @staticmethod
-    def from_xml(xml_path: str):
+    def from_xml(xml_path: str, description):
         tree = etree.parse(xml_path)
         tree_root = tree.getroot()
 
@@ -213,7 +214,7 @@ class Schema:
         if len(schema_comment_block) == 1:
             schema_comment = schema_comment_block[0].text
         else:
-            schema_comment = None
+            schema_comment = description
 
         # Get all defined variables
         vars_root = xpath('b:variables/b:variable', tree_root)
@@ -355,6 +356,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('inpath', type=str, help="input Blockly XML file path")
     arg_parser.add_argument('outpath', type=str, help="output JSON-LD file path")
     arg_parser.add_argument('--vid', type=str, help='vendor prefix for JSON-LD @id (default: jhu)', default='jhu')
+    arg_parser.add_argument('--descrip', type=str, help='A description for the schema')
 
     args = arg_parser.parse_args()
     bxml_path = args.inpath
@@ -366,11 +368,11 @@ if __name__ == '__main__':
         events = pickle.load(fin)
     events_args = {k: dict(v['args']) for k, v in events.items()}
 
-    schema = Schema.from_xml(bxml_path)
+    schema = Schema.from_xml(bxml_path, args.descrip)
     out_jsonld = collections.OrderedDict({
-        '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v0.8.jsonld',
-        '@id': f'{vendor_id}:Submissions/TA1/Quizlet3',
-        'sdfVersion': '0.8',
+        '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v0.9.jsonld',
+        '@id': f'{vendor_id}:Submissions/TA1/SchemaLib',
+        'sdfVersion': '0.9',
         'schemas': [schema.to_json_ld()]
     })
 
