@@ -1,5 +1,7 @@
 # schema-ui
 
+<img src="schema-blocks.png" alt="example schema" width="500"/>
+
 [Scratch](https://scratch.mit.edu/)-like UI for KAIROS TA1 schema editing. Based on [Google Blockly](https://github.com/google/blockly).
 
 ## Using schema-ui to produce TA1 schemas
