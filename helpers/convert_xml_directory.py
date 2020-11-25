@@ -1,3 +1,4 @@
+#Used for converting a directory of XML schemas to JSON
 import lxml
 import json
 import regex
@@ -5,6 +6,7 @@ import pickle
 import argparse
 import itertools
 import collections
+import os
 
 from lxml import etree
 from typing import List, Dict
@@ -12,7 +14,6 @@ from datetime import datetime
 
 nsmap = {'b': 'https://developers.google.com/blockly/xml',
          'x': 'http://www.w3.org/1999/xhtml'}
-
 
 def xpath(query: str, root: lxml.etree.Element) -> List[lxml.etree.Element]:
     return root.xpath(query, namespaces=nsmap)
@@ -216,8 +217,9 @@ class Schema:
         elif description:
             schema_comment = description
         else:
-            schema_comment = " "
-            print("No description given!")
+            print("Create a Description For Schema {}:".format(schema_name))
+            schema_comment = input()
+#            schema_comment =" "
 
         # Get all defined variables
         vars_root = xpath('b:variables/b:variable', tree_root)
@@ -366,16 +368,14 @@ class Schema:
             cur_tc = xpath('b:next/b:block', cur_tc)
 
 
+
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('inpath', type=str, help="input Blockly XML file path")
-    arg_parser.add_argument('outpath', type=str, help="output JSON-LD file path")
+    arg_parser.add_argument('indir', type=str, help="input directory XML file path")
+    arg_parser.add_argument('outdir', type=str, help="output JSON-LD directory path")
     arg_parser.add_argument('--vid', type=str, help='vendor prefix for JSON-LD @id (default: jhu)', default='jhu')
-    arg_parser.add_argument('--descrip', type=str, help='A description for the schema')
 
     args = arg_parser.parse_args()
-    bxml_path = args.inpath
-    jsonld_path = args.outpath
     vendor_id = args.vid
     schema_version = datetime.now().strftime('%m/%d/%Y')
 
@@ -383,15 +383,29 @@ if __name__ == '__main__':
         events = pickle.load(fin)
     events_args = {k: dict(v['args']) for k, v in events.items()}
 
-    schema = Schema.from_xml(bxml_path, args.descrip)
-    out_jsonld = collections.OrderedDict({
-        '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v1.0.jsonld',
-        '@id': f'{vendor_id}:Submissions/TA1/SchemaLib',
-        'sdfVersion': '1.0',
-        'schemas': [schema.to_json_ld()]
-    })
 
-    with open(jsonld_path, 'w') as fout:
-        json.dump(out_jsonld, fout, indent=2)
+    converted = 0
+    total = len(os.listdir(args.indir))
+    for xml_fname in os.listdir(args.indir):
+        bxml_path = os.path.join(args.indir, xml_fname)
+        try: 
+            schema = Schema.from_xml(bxml_path, None)
+            out_jsonld = collections.OrderedDict({
+                '@context': 'https://kairos-sdf.s3.amazonaws.com/context/kairos-v1.0.jsonld',
+                '@id': f'{vendor_id}:Submissions/TA1/SchemaLib',
+                'sdfVersion': '1.0',
+                'schemas': [schema.to_json_ld()]
+            })
 
-    print('Success!')
+            name = "JHU_" + schema.name.title().replace(" ", '').strip() + ".json"
+            jsonld_path = os.path.join(args.outdir, name)
+            with open(jsonld_path, 'w') as fout:
+                json.dump(out_jsonld, fout, indent=2)
+
+            converted +=1
+
+        except:
+            print("Failed to Convert: {}".format(xml_fname))
+
+    print('Successfully Converted {} / {} Schemas'.format(converted, total))
+    
