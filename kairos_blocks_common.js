@@ -1,22 +1,4 @@
 /**
- * @license
- * Copyright 2012 Google LLC
- * Copyright 2020 Anton Belyy? (not sure though)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
  * @fileoverview KAIROS blocks for Blockly.
  * @author abel@jhu.edu (Anton Belyy)
  */
@@ -251,7 +233,7 @@ function slots2types(var_slots) {
 
 function typecheck() {
     function get_all_vars(block) {
-        if (block.type == 'variables_get') {
+        if (block.type === 'variables_get') {
             return [block];
         } else if (block.type.startsWith('kairos_control_multivar')) {
             var output = [];
@@ -268,8 +250,33 @@ function typecheck() {
         }
     }
 
+    var all_unused_vars = new Set(workspace.getAllVariables().map(x => x.getId()));
+    var all_used_vars = new Set();
     var vars_slots = {};
+    var tc_var_id_set = new Set();
     var blocks = workspace.getAllBlocks(false);
+    var schema_block = workspace.getBlockById('kairos_schema');
+
+    for (var i = 0; i < blocks.length; i++) {
+        var block = blocks[i];
+        if (block.type !== 'kairos_control_type_constraint') {
+            var blockVariables = block.getVarModels();
+            if (blockVariables) {
+                for (var j = 0; j < blockVariables.length; j++) {
+                    var variable = blockVariables[j];
+                    var var_id = variable.getId();
+                    if (var_id) {
+                        all_used_vars.add(var_id)
+                    }
+                }
+            }
+        }
+    }
+    all_unused_vars = new Set([...all_unused_vars].filter(x => !all_used_vars.has(x)));
+    all_unused_vars.forEach(function(var_id) {
+        workspace.deleteVariableById(var_id);
+    });
+
     for (var i = 0; i < blocks.length; i++) {
         var block = blocks[i];
         if (block.type.includes('kairos_event_') && block.type.includes('_part_')) {
@@ -295,6 +302,13 @@ function typecheck() {
                     }
                 }
             }
+        } else if(block.type === 'kairos_control_type_constraint') {
+            var var_id = block.getFieldValue('VAR');
+            if (!all_used_vars.has(var_id)) {
+                block.dispose(true);
+            } else {
+                tc_var_id_set.add(var_id);
+            }
         }
     }
     var vars_types = {};
@@ -302,7 +316,7 @@ function typecheck() {
         vars_types[var_id] = slots2types(vars_slots[var_id]);
     }
 
-    var typeCheckVarDescr = [];
+    // var typeCheckVarDescr = [];
     for (var i = 0; i < blocks.length; i++) {
         var block = blocks[i];
         if (block.type === "variables_get") {
@@ -315,54 +329,40 @@ function typecheck() {
                     var variable = workspace.getVariableById(var_id);
                     var types = Array.from(vars_types[var_id]);
                     types.sort();
-                    typeCheckVarDescr.push([variable.name, types]);
+                    // typeCheckVarDescr.push([variable.name, types]);
+                    if (!tc_var_id_set.has(var_id)) {
+                        addConstraint(variable.name, types.join(','), schema_block);
+                        tc_var_id_set.add(var_id);
+                    }
                     block.setEnabled(true);
                     block.setTooltip(Blockly.Msg['VARIABLES_GET_TOOLTIP']);
                 }
             }
         }
     }
-    var typeCheckVarDescrHTML = "";
-    typeCheckVarDescr.sort();
-    var prev_var_name = null;
-    for (var i = 0; i < typeCheckVarDescr.length; i++) {
-        if (typeCheckVarDescr[i][0] === prev_var_name) {
-            continue;
-        }
-        var inst_handler = "instantiateVar(\"" + typeCheckVarDescr[i][0] + "\")";
-        var add_cons_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
-        var var_types_html = [];
-        for (var j = 0; j < typeCheckVarDescr[i][1].length; j++) {
-            var type_name = typeCheckVarDescr[i][1][j];
-            var type_tooltip = slot_types[type_name] || "";
-            var_types_html.push("<span title='" + type_tooltip + "'>" + type_name + "</span>");
-        }
-        typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + var_types_html.join(", ") + "<br>";
-        prev_var_name = typeCheckVarDescr[i][0];
-    }
-    document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
+
+    // var typeCheckVarDescrHTML = "";
+    // typeCheckVarDescr.sort();
+    // var prev_var_name = null;
+    // for (var i = 0; i < typeCheckVarDescr.length; i++) {
+    //     if (typeCheckVarDescr[i][0] === prev_var_name) {
+    //         continue;
+    //     }
+    //     var inst_handler = "instantiateVar(\"" + typeCheckVarDescr[i][0] + "\")";
+    //     var add_cons_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
+    //     var var_types_html = [];
+    //     for (var j = 0; j < typeCheckVarDescr[i][1].length; j++) {
+    //         var type_name = typeCheckVarDescr[i][1][j];
+    //         var type_tooltip = slot_types[type_name] || "";
+    //         var_types_html.push("<span title='" + type_tooltip + "'>" + type_name + "</span>");
+    //     }
+    //     typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + var_types_html.join(", ") + "<br>";
+    //     prev_var_name = typeCheckVarDescr[i][0];
+    // }
+    // document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
 }
 
-function addConstraint(var_name, var_types) {
-    var schema_block = workspace.getBlockById('kairos_schema');
-
-    var tc_var_set = new Set();
-    var tc_root = schema_block;
-    var flag = true;
-    while (flag) {
-        flag = false;
-        var tc_children = tc_root.getChildren(false);
-        for (var i = 0; i < tc_children.length; i++) {
-            var tc_child = tc_children[i];
-            if (tc_child.type === 'kairos_control_type_constraint') {
-                tc_var_set.add(tc_child.getFieldValue('VAR'));
-                tc_root = tc_child;
-                flag = true;
-                break;
-            }
-        }
-    }
-
+function addConstraint(var_name, var_types, schema_block) {
     var tc_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block type='kairos_control_type_constraint'>" +
         "<field name=\"VAR\">" + var_name + "</field>" +
         "<field name=\"TYPES\">" + var_types + "</field>" +
@@ -370,12 +370,8 @@ function addConstraint(var_name, var_types) {
     var dom = Blockly.Xml.textToDom(tc_xml);
     var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
     var block = workspace.getBlockById(new_block_id);
-    if (tc_var_set.has(block.getFieldValue('VAR'))) {
-        block.dispose(true);
-    } else {
-        var tc_connection = schema_block.getInput('TC').connection;
-        tc_connection.connect(block.previousConnection);
-    }
+    var tc_connection = schema_block.getInput('TC').connection;
+    tc_connection.connect(block.previousConnection);
 }
 
 
@@ -448,13 +444,29 @@ function createVariableHandler(button) {
     })
 }
 
+function show_help() {
+    var dont_show_help_flag = localStorage.getItem('dont-show-help-on-startup');
+    document.getElementById('dont-show-help-on-startup').checked = (dont_show_help_flag === 'true');
+    if (dont_show_help_flag !== 'true') {
+        document.getElementById('show-help').click();
+    }
+}
+
 function kairos_init() {
+    workspace.registerButtonCallback("CREATE_VARIABLE", createVariableHandler);
+
     var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
-        "<field name=\"NAME\">TestSchema001</field>\n" +
+        "<field name=\"NAME\">TestSchema</field>\n" +
         "</block></xml>";
     var dom = Blockly.Xml.textToDom(schema_xml);
     var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
     var block = workspace.getBlockById(new_block_id);
     block.moveBy(50, 50);
+
+    $('#helpModal').on('hide.bs.modal', function () {
+        var dont_show_help_flag = document.getElementById('dont-show-help-on-startup').checked === true;
+        localStorage.setItem('dont-show-help-on-startup', dont_show_help_flag);
+    })
+    show_help();
 }
 
