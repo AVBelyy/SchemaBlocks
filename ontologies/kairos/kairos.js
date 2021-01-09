@@ -11,209 +11,6 @@ goog.provide('Blockly.Constants.Kairos');
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
 
-var events_connections = events_types.concat(["kairos_control_parallel", "kairos_control_linear", "kairos_control_xor"]);
-
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_schema",
-        "message0": "schema %1",
-        "args0": [{
-            "type": "field_input",
-            "name": "NAME",
-        }],
-        "message1": "steps %1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO",
-            "check": events_connections,
-        }],
-        "message2": "entities %1",
-        "args2": [{
-            "type": "input_statement",
-            "name": "TC",
-            "check": ["kairos_control_type_constraint"],
-        }],
-        "message3": "relations %1",
-        "args3": [{
-            "type": "input_statement",
-            "name": "relations",
-            "check": relations_types,
-        }],
-
-        "inputsInline": false,
-        "style": "math_blocks",
-    },
-]);
-
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_parallel",
-        "message0": "in any order",
-        "message1": "do %1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO"
-        }],
-        "previousStatement": events_connections,
-        "nextStatement": events_connections,
-        "style": "list_blocks",
-        "extensions": [
-        ]
-    },
-]);
-
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_linear",
-        "message0": "in linear order",
-        "message1": "do %1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO"
-        }],
-        "previousStatement": events_connections,
-        "nextStatement": events_connections,
-        "style": "list_blocks",
-        "extensions": [
-        ]
-    },
-]);
-
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_xor",
-        "message0": "mutually exclusive",
-        "message1": "do %1",
-        "args1": [{
-            "type": "input_statement",
-            "name": "DO"
-        }],
-        "previousStatement": events_connections,
-        "nextStatement": events_connections,
-        "style": "list_blocks",
-        "extensions": [
-        ]
-    },
-]);
-
-var multivar_msg = "%1";
-var multivar_args = [{"type": "input_value", "name": "VAR1", "check": ["variables_get", "kairos_multivar"]}];
-for (var i = 2; i <= 5; i++) {
-    multivar_msg += ", %" + i;
-    multivar_args.push({"type": "input_value", "name": "VAR" + i, "check": ["variables_get", "kairos_multivar"]});
-    Blockly.defineBlocksWithJsonArray([{
-      "type": "kairos_control_multivar_" + i,
-      "message0": JSON.parse(JSON.stringify(multivar_msg)), // make a deep copy
-      "args0": JSON.parse(JSON.stringify(multivar_args)), // make a deep copy
-      "inputsInline": true,
-      "style": "variable_blocks",
-      "output": "kairos_multivar"
-    }]);
-}
-
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_type_constraint",
-        "message0": "Constrain %1 to types %2 and reference %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR"
-            },
-            {
-                "type": "field_input",
-                "name": "TYPES"
-            },
-            {
-                "type": "field_input",
-                "name": "REF"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": ["kairos_control_type_constraint"],
-        "nextStatement": ["kairos_control_type_constraint"],
-        "style": "text_blocks",
-    }
-]);
-
-/*
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "kairos_control_relation_constraint",
-        "message0": "assert relation %1 between %2 and %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR"
-            },
-            {
-                "type": "field_variable",
-                "name": "VAR"
-            },
-            {
-                "type": "field_variable",
-                "name": "VAR"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": [ "kairos_control_type_constraint", "kairos_control_relation_constraint"],
-        "nextStatement": [ "kairos_control_type_constraint", "kairos_control_relation_constraint"],
-        "style": "text_blocks",
-    }
-]);
-*/
-
-// Extensions
-
-/*
-Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN = {
-    incrName: function(varName) {
-        if (/\w+_\d+/.test(varName)) {
-            var res = varName.split('_');
-            return res[0] + '_' + (parseInt(res[1]) + 1).toString();
-        } else {
-            return varName + "_2";
-        }
-    },
-
-    onchange: function(_e) {
-        if (!this.workspace.isDragging || this.workspace.isDragging()) {
-            return;  // Don't change state at the start of a drag.
-        }
-        if (this.type.includes('kairos_event_') && this.type.includes('_part_')) {
-            // Make variable names unique in flyouts
-            if (this.isInFlyout) {
-                var pvm = this.workspace.getPotentialVariableMap();
-                var all_used_var_models = this.workspace.getAllVariables();
-                // Build a var model map for all used vars
-                var used_vars_map = {};
-                var inv_used_vars_set = new Set();
-                all_used_var_models.forEach(function(used_var) {
-                    used_vars_map[used_var.getId()] = used_var.name;
-                    inv_used_vars_set.add(used_var.name);
-                });
-                var children = this.getChildren(false);
-                children.forEach(function(child) {
-                    console.assert(child.type === "variables_get");
-                    var var_id = child.getFieldValue('VAR');
-                    if (var_id in used_vars_map) {
-                        var new_name = used_vars_map[var_id];
-                        do {
-                            new_name = Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN.incrName(new_name);
-                        } while (inv_used_vars_set.has(new_name));
-                        var new_var_model = pvm.createVariable(new_name).getId();
-                        child.setFieldValue(new_var_model, 'VAR');
-                    }
-                });
-            }
-        }
-    }
-};
-*/
-
-// Blockly.Extensions.registerMixin('kairos_events_checkVarsNamesAndTypes',
-//     Blockly.Constants.Kairos.EVENTS_ONCHANGE_MIXIN);
-
 function slots2types(var_slots) {
     var_slots = Array.from(var_slots);
     var types = new Set();
@@ -340,26 +137,6 @@ function typecheck() {
             }
         }
     }
-
-    // var typeCheckVarDescrHTML = "";
-    // typeCheckVarDescr.sort();
-    // var prev_var_name = null;
-    // for (var i = 0; i < typeCheckVarDescr.length; i++) {
-    //     if (typeCheckVarDescr[i][0] === prev_var_name) {
-    //         continue;
-    //     }
-    //     var inst_handler = "instantiateVar(\"" + typeCheckVarDescr[i][0] + "\")";
-    //     var add_cons_handler = "addConstraint(\"" + typeCheckVarDescr[i][0] + "\",\"" + typeCheckVarDescr[i][1].join(',') + "\")";
-    //     var var_types_html = [];
-    //     for (var j = 0; j < typeCheckVarDescr[i][1].length; j++) {
-    //         var type_name = typeCheckVarDescr[i][1][j];
-    //         var type_tooltip = slot_types[type_name] || "";
-    //         var_types_html.push("<span title='" + type_tooltip + "'>" + type_name + "</span>");
-    //     }
-    //     typeCheckVarDescrHTML += "<button onclick='" + add_cons_handler + "'>" + typeCheckVarDescr[i][0] + "</button> : " + var_types_html.join(", ") + "<br>";
-    //     prev_var_name = typeCheckVarDescr[i][0];
-    // }
-    // document.getElementById('typeCheckVars').innerHTML = typeCheckVarDescrHTML;
 }
 
 function addConstraint(var_name, var_types, schema_block) {
@@ -372,14 +149,6 @@ function addConstraint(var_name, var_types, schema_block) {
     var block = workspace.getBlockById(new_block_id);
     var tc_connection = schema_block.getInput('TC').connection;
     tc_connection.connect(block.previousConnection);
-}
-
-
-function setTypecheck(new_typecheck_value) {
-    is_enabled_typecheck = new_typecheck_value;
-    if (is_enabled_typecheck) {
-        typecheck();
-    }
 }
 
 function workspaceOnChangeListener(e) {
@@ -444,7 +213,7 @@ function createVariableHandler(button) {
     })
 }
 
-function show_help() {
+function showHelp() {
     var dont_show_help_flag = localStorage.getItem('dont-show-help-on-startup');
     document.getElementById('dont-show-help-on-startup').checked = (dont_show_help_flag === 'true');
     if (dont_show_help_flag !== 'true') {
@@ -452,21 +221,195 @@ function show_help() {
     }
 }
 
-function kairos_init() {
-    workspace.registerButtonCallback("CREATE_VARIABLE", createVariableHandler);
-
-    var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
-        "<field name=\"NAME\">TestSchema</field>\n" +
-        "</block></xml>";
-    var dom = Blockly.Xml.textToDom(schema_xml);
-    var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
-    var block = workspace.getBlockById(new_block_id);
-    block.moveBy(50, 50);
-
-    $('#helpModal').on('hide.bs.modal', function () {
-        var dont_show_help_flag = document.getElementById('dont-show-help-on-startup').checked === true;
-        localStorage.setItem('dont-show-help-on-startup', dont_show_help_flag);
-    })
-    show_help();
+function toXml() {
+    var xml = Blockly.Xml.workspaceToDom(workspace);
+    var contents = Blockly.Xml.domToPrettyText(xml);
+    var cur_schema_block = workspace.getBlockById('kairos_schema');
+    var schema_name;
+    if (cur_schema_block) {
+        schema_name = cur_schema_block.getFieldValue('NAME') || 'schema';
+    } else {
+        schema_name = 'schema';
+    }
+    schema_name = schema_name.replace(/[^a-z0-9]/gi, '_');
+    download(schema_name + ".xml", contents);
 }
 
+function fromXml() {
+    var el = window._protected_reference = document.createElement('INPUT');
+    el.type = 'file';
+    el.accept = 'application/xml';
+
+    el.addEventListener('change', function (ev) {
+        if (el.files.length) {
+            var file = el.files[0];
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    var contents = e.target.result;
+                    if (contents) {
+                        // There can only be one schema -- delete the current one
+                        var cur_schema_block = workspace.getBlockById('kairos_schema');
+                        if (cur_schema_block) {
+                            cur_schema_block.dispose(true);
+                        }
+                        var xml = Blockly.Xml.textToDom(contents);
+                        Blockly.Xml.domToWorkspace(xml, workspace);
+
+                    }
+                    el = window._protected_reference = undefined;
+                };
+            })(file);
+            // Read in the image file as a data URL.
+            reader.readAsText(file);
+        }
+    });
+    el.click();
+}
+
+function ontInit() {
+    loadJS('ontologies/kairos/kairos_ontology.js', function() {
+        loadJS('ontologies/kairos/kairos_blocks.js');
+
+        var events_connections = events_types.concat(["kairos_control_parallel", "kairos_control_linear", "kairos_control_xor"]);
+
+        Blockly.defineBlocksWithJsonArray([
+            {
+                "type": "kairos_control_schema",
+                "message0": "schema %1",
+                "args0": [{
+                    "type": "field_input",
+                    "name": "NAME",
+                }],
+                "message1": "steps %1",
+                "args1": [{
+                    "type": "input_statement",
+                    "name": "DO",
+                    "check": events_connections,
+                }],
+                "message2": "entities %1",
+                "args2": [{
+                    "type": "input_statement",
+                    "name": "TC",
+                    "check": ["kairos_control_type_constraint"],
+                }],
+                "message3": "relations %1",
+                "args3": [{
+                    "type": "input_statement",
+                    "name": "relations",
+                    "check": relations_types,
+                }],
+
+                "inputsInline": false,
+                "style": "math_blocks",
+            },
+        ]);
+
+        Blockly.defineBlocksWithJsonArray([
+            {
+                "type": "kairos_control_parallel",
+                "message0": "in any order",
+                "message1": "do %1",
+                "args1": [{
+                    "type": "input_statement",
+                    "name": "DO"
+                }],
+                "previousStatement": events_connections,
+                "nextStatement": events_connections,
+                "style": "list_blocks",
+                "extensions": [
+                ]
+            },
+        ]);
+
+        Blockly.defineBlocksWithJsonArray([
+            {
+                "type": "kairos_control_linear",
+                "message0": "in linear order",
+                "message1": "do %1",
+                "args1": [{
+                    "type": "input_statement",
+                    "name": "DO"
+                }],
+                "previousStatement": events_connections,
+                "nextStatement": events_connections,
+                "style": "list_blocks",
+                "extensions": [
+                ]
+            },
+        ]);
+
+        Blockly.defineBlocksWithJsonArray([
+            {
+                "type": "kairos_control_xor",
+                "message0": "mutually exclusive",
+                "message1": "do %1",
+                "args1": [{
+                    "type": "input_statement",
+                    "name": "DO"
+                }],
+                "previousStatement": events_connections,
+                "nextStatement": events_connections,
+                "style": "list_blocks",
+                "extensions": [
+                ]
+            },
+        ]);
+
+        var multivar_msg = "%1";
+        var multivar_args = [{"type": "input_value", "name": "VAR1", "check": ["variables_get", "kairos_multivar"]}];
+        for (var i = 2; i <= 5; i++) {
+            multivar_msg += ", %" + i;
+            multivar_args.push({"type": "input_value", "name": "VAR" + i, "check": ["variables_get", "kairos_multivar"]});
+            Blockly.defineBlocksWithJsonArray([{
+                "type": "kairos_control_multivar_" + i,
+                "message0": JSON.parse(JSON.stringify(multivar_msg)), // make a deep copy
+                "args0": JSON.parse(JSON.stringify(multivar_args)), // make a deep copy
+                "inputsInline": true,
+                "style": "variable_blocks",
+                "output": "kairos_multivar"
+            }]);
+        }
+
+        Blockly.defineBlocksWithJsonArray([
+            {
+                "type": "kairos_control_type_constraint",
+                "message0": "Constrain %1 to types %2 and reference %3",
+                "args0": [
+                    {
+                        "type": "field_variable",
+                        "name": "VAR"
+                    },
+                    {
+                        "type": "field_input",
+                        "name": "TYPES"
+                    },
+                    {
+                        "type": "field_input",
+                        "name": "REF"
+                    }
+                ],
+                "inputsInline": true,
+                "previousStatement": ["kairos_control_type_constraint"],
+                "nextStatement": ["kairos_control_type_constraint"],
+                "style": "text_blocks",
+            }
+        ]);
+
+        workspace.registerButtonCallback("CREATE_VARIABLE", createVariableHandler);
+
+        var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
+            "<field name=\"NAME\">TestSchema</field>\n" +
+            "</block></xml>";
+        var dom = Blockly.Xml.textToDom(schema_xml);
+        var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+        var block = workspace.getBlockById(new_block_id);
+        block.moveBy(50, 50);
+
+        $('#helpModal').on('hide.bs.modal', function () {
+            var dont_show_help_flag = document.getElementById('dont-show-help-on-startup').checked === true;
+            localStorage.setItem('dont-show-help-on-startup', dont_show_help_flag);
+        })
+        showHelp();
+    });
+}
