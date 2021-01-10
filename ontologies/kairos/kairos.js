@@ -172,47 +172,6 @@ function addNewVariable(parent_block, event_name, arg_name) {
     arg_connection.connect(var_block.outputConnection);
 }
 
-function createNamedVariable(var_name, is_unique_name) {
-    function incrName(varName) {
-        if (/\w+_\d+/.test(varName)) {
-            var res = varName.split('_');
-            return res[0] + '_' + (parseInt(res[1]) + 1).toString();
-        } else {
-            return varName + "_2";
-        }
-    }
-
-    if (is_unique_name) {
-        var all_used_var_models = workspace.getAllVariables();
-        var inv_used_vars_set = new Set();
-        all_used_var_models.forEach(function(used_var) {
-            inv_used_vars_set.add(used_var.name);
-        });
-        while (inv_used_vars_set.has(var_name)) {
-            var_name = incrName(var_name);
-        }
-    }
-    var xml = '<block type="variables_get"><field name="VAR">' + var_name + '</field></block>';
-    xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
-    var dom = Blockly.Xml.textToDom(xml);
-    var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
-    var block = workspace.getBlockById(new_block_id);
-    return block;
-}
-
-function createVariableHandler(button) {
-    Blockly.Variables.promptName('Enter variable name:', '', function(var_name) {
-        if (!var_name) {
-            return;
-        }
-        var block = createNamedVariable(var_name, false);
-        var metrics = workspace.getMetrics();
-        var rnd_x = Math.random() * 0.5 + 0.25, rnd_y = Math.random() * 0.5 + 0.25;
-        block.moveBy((rnd_x * metrics.viewWidth + metrics.viewLeft) / workspace.scale, (rnd_y * metrics.viewHeight + metrics.viewTop) / workspace.scale);
-        Blockly.hideChaff();
-    })
-}
-
 function showHelp() {
     var dont_show_help_flag = localStorage.getItem('dont-show-help-on-startup');
     document.getElementById('dont-show-help-on-startup').checked = (dont_show_help_flag === 'true');
@@ -233,38 +192,6 @@ function toXml() {
     }
     schema_name = schema_name.replace(/[^a-z0-9]/gi, '_');
     download(schema_name + ".xml", contents);
-}
-
-function fromXml() {
-    var el = window._protected_reference = document.createElement('INPUT');
-    el.type = 'file';
-    el.accept = 'application/xml';
-
-    el.addEventListener('change', function (ev) {
-        if (el.files.length) {
-            var file = el.files[0];
-            var reader = new FileReader();
-            reader.onload = (function (theFile) {
-                return function (e) {
-                    var contents = e.target.result;
-                    if (contents) {
-                        // There can only be one schema -- delete the current one
-                        var cur_schema_block = workspace.getBlockById('kairos_schema');
-                        if (cur_schema_block) {
-                            cur_schema_block.dispose(true);
-                        }
-                        var xml = Blockly.Xml.textToDom(contents);
-                        Blockly.Xml.domToWorkspace(xml, workspace);
-
-                    }
-                    el = window._protected_reference = undefined;
-                };
-            })(file);
-            // Read in the image file as a data URL.
-            reader.readAsText(file);
-        }
-    });
-    el.click();
 }
 
 function ontInit() {
@@ -395,8 +322,6 @@ function ontInit() {
                 "style": "text_blocks",
             }
         ]);
-
-        workspace.registerButtonCallback("CREATE_VARIABLE", createVariableHandler);
 
         var schema_xml = "<xml xmlns='https://developers.google.com/blockly/xml'><block id='kairos_schema' type='kairos_control_schema' deletable='false'>\n" +
             "<field name=\"NAME\">TestSchema</field>\n" +

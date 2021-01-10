@@ -18,21 +18,12 @@
   <!--Blockly scripts-->
   <script src="blockly/blockly_uncompressed.js"></script>
   <script src="blockly/msg/messages.js"></script>
-<!--  <script src="blockly/blocks/logic.js"></script>-->
-<!--  <script src="blockly/blocks/loops.js"></script>-->
-<!--  <script src="blockly/blocks/math.js"></script>-->
-<!--  <script src="blockly/blocks/text.js"></script>-->
-<!--  <script src="blockly/blocks/lists.js"></script>-->
-<!--  <script src="blockly/blocks/colour.js"></script>-->
   <script src="blockly/blocks/variables.js"></script>
-<!--  <script src="blockly/blocks/variables_dynamic.js"></script>-->
-<!--  <script src="blockly/blocks/procedures.js"></script>-->
-<!--  <script src="blockly/tests/blocks/test_blocks.js"></script>-->
-<!--  <script src="blockly/tests/themes/test_themes.js"></script>-->
 
   <script>
     'use strict';
-    var ont_name = 'kairos';
+    var ont_name = 'legal_prolog';
+    var ont_pretty_name = 'Legal Prolog';
     var ont_did_init = false;
     var ont_is_loaded = false;
     var page_is_loaded = false;
@@ -83,6 +74,8 @@
         return;
       }
 
+      $('#navbar-ont-name').html(ont_pretty_name);
+
       // Append toolbox XML to the HTML body
       $("body").append($(toolbox_xml)).ready(function() {
         // Create main workspace.
@@ -127,6 +120,8 @@
         workspace.configureContextMenu = configureContextMenu;
         // set onChangeListener on workspace
         workspace.addChangeListener(workspaceOnChangeListener);
+        // register a callback for Create variable button
+        workspace.registerButtonCallback("CREATE_VARIABLE", createVariableHandler);
 
         // Ontology-specific init
         if (ont_is_loaded && !ont_did_init) {
@@ -162,6 +157,75 @@
       // Adds a default-sized workspace comment to the workspace.
       menuOptions.push(Blockly.ContextMenu.workspaceCommentOption(workspace, e));
     }
+
+    function createNamedVariable(var_name, is_unique_name) {
+      function incrName(varName) {
+        if (/\w+_\d+/.test(varName)) {
+          var res = varName.split('_');
+          return res[0] + '_' + (parseInt(res[1]) + 1).toString();
+        } else {
+          return varName + "_2";
+        }
+      }
+
+      if (is_unique_name) {
+        var all_used_var_models = workspace.getAllVariables();
+        var inv_used_vars_set = new Set();
+        all_used_var_models.forEach(function(used_var) {
+          inv_used_vars_set.add(used_var.name);
+        });
+        while (inv_used_vars_set.has(var_name)) {
+          var_name = incrName(var_name);
+        }
+      }
+      var xml = '<block type="variables_get"><field name="VAR">' + var_name + '</field></block>';
+      xml = '<xml xmlns="https://developers.google.com/blockly/xml">' + xml + '</xml>';
+      var dom = Blockly.Xml.textToDom(xml);
+      var new_block_id = Blockly.Xml.domToWorkspace(dom, workspace)[0];
+      return workspace.getBlockById(new_block_id);
+    }
+
+    function createVariableHandler(_) {
+      Blockly.Variables.promptName('Enter variable name:', '', function(var_name) {
+        if (!var_name) {
+          return;
+        }
+        var block = createNamedVariable(var_name, false);
+        var metrics = workspace.getMetrics();
+        var rnd_x = Math.random() * 0.5 + 0.25, rnd_y = Math.random() * 0.5 + 0.25;
+        block.moveBy((rnd_x * metrics.viewWidth + metrics.viewLeft) / workspace.scale, (rnd_y * metrics.viewHeight + metrics.viewTop) / workspace.scale);
+        Blockly.hideChaff();
+      })
+    }
+
+    function fromXml() {
+      var el = window._protected_reference = document.createElement('INPUT');
+      el.type = 'file';
+      el.accept = 'application/xml';
+
+      el.addEventListener('change', function (ev) {
+        if (el.files.length) {
+          var file = el.files[0];
+          var reader = new FileReader();
+          reader.onload = (function (theFile) {
+            return function (e) {
+              var contents = e.target.result;
+              if (contents) {
+                // Clear current workspace
+                workspace.clear();
+                var xml = Blockly.Xml.textToDom(contents);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+
+              }
+              el = window._protected_reference = undefined;
+            };
+          })(file);
+          // Read in the image file as a data URL.
+          reader.readAsText(file);
+        }
+      });
+      el.click();
+    }
   </script>
 
   <style>
@@ -171,6 +235,10 @@
 
     #navbar {
       height: 55px;
+    }
+
+    #navbar-ont-name {
+      color: grey;
     }
 
     .navbar-nav > li{
@@ -190,6 +258,7 @@
 <body onload="onload()">
   <nav id="navbar" class="navbar navbar-expand" style="background-color: #e3f2fd">
     <span class="navbar-brand"><span style="color: #6CA362"><b>S</b></span>chema<span style="color: #637FA2"><b>B</b></span>locks</span>
+    <span id="navbar-ont-name"></span>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item"><button class="btn btn-outline-success my-2 my-sm-0" onclick="toXml()"><span class="fas fa-download"></span> Save schema to file...</button></li>
       <li class="nav-item"><button class="btn btn-outline-success my-2 my-sm-0" onclick="fromXml()"><span class="fas fa-upload"></span> Load schema from file...</button></li>
