@@ -30,7 +30,7 @@ function ontInit() {
     loadJS('blockly/blocks/lists.js');
 
     // Define shadow blocks
-    createShadowBlocks(['Event', 'Agent', 'Patient', 'Amount', 'Purpose', 'Day', 'Year']);
+    createShadowBlocks(['Event', 'Agent', 'Patient', 'Amount', 'Purpose', 'Day', 'Year', 'Date', 'Sum', 'List']);
     createShadowBlocks(['Day1', 'Day2', 'Child', 'Parent', 'Stepchild', 'Stepparent', 'Start', 'End']);
 
     // Top-level blocks
@@ -279,8 +279,88 @@ function ontInit() {
     // Legal Prolog functions
     Blockly.defineBlocksWithJsonArray([
         {
+            "type": "lp_is_during",
+            "message0": "%1 is during %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "day1"
+                },
+                {
+                    "type": "input_value",
+                    "name": "day2"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "lp_is_before_or_during",
+            "message0": "%1 is before or during %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "day1"
+                },
+                {
+                    "type": "input_value",
+                    "name": "day2"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "lp_is_after_or_during",
+            "message0": "%1 is after or during %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "day1"
+                },
+                {
+                    "type": "input_value",
+                    "name": "day2"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
             "type": "lp_is_before",
             "message0": "%1 is before %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "day1"
+                },
+                {
+                    "type": "input_value",
+                    "name": "day2"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "lp_is_after",
+            "message0": "%1 is after %2",
             "args0": [
                 {
                     "type": "input_value",
@@ -309,6 +389,46 @@ function ontInit() {
                 {
                     "type": "input_value",
                     "name": "year"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "lp_is_year_of",
+            "message0": "%1 is the year of %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "year"
+                },
+                {
+                    "type": "input_value",
+                    "name": "date"
+                }
+            ],
+            "inputsInline": true,
+            "previousStatement": null,
+            "nextStatement": null,
+            "colour": 230,
+            "tooltip": "",
+            "helpUrl": ""
+        },
+        {
+            "type": "lp_is_sum_of",
+            "message0": "%1 is the sum of %2",
+            "args0": [
+                {
+                    "type": "input_value",
+                    "name": "sum"
+                },
+                {
+                    "type": "input_value",
+                    "name": "list"
                 }
             ],
             "inputsInline": true,

@@ -286,11 +286,17 @@ var toolbox_xml = `
 <category name="Functions" categorystyle="procedure_category">
     <block type="lp_clause_applies"></block>
     <block type="lp_spf_applies"></block>
+    <block type="lp_is_during"><value name="day1"><shadow type="lp_shadow_Day1"/></value><value name="day2"><shadow type="lp_shadow_Day2"/></value></block>
     <block type="lp_is_before"><value name="day1"><shadow type="lp_shadow_Day1"/></value><value name="day2"><shadow type="lp_shadow_Day2"/></value></block>
+    <block type="lp_is_after"><value name="day1"><shadow type="lp_shadow_Day1"/></value><value name="day2"><shadow type="lp_shadow_Day2"/></value></block>
+    <block type="lp_is_before_or_during"><value name="day1"><shadow type="lp_shadow_Day1"/></value><value name="day2"><shadow type="lp_shadow_Day2"/></value></block>
+    <block type="lp_is_after_or_during"><value name="day1"><shadow type="lp_shadow_Day1"/></value><value name="day2"><shadow type="lp_shadow_Day2"/></value></block>
+    <block type="lp_is_year_of"><value name="year"><shadow type="lp_shadow_Year"/></value><value name="date"><shadow type="lp_shadow_Date"/></value></block>
     <block type="lp_first_day_year"><value name="day"><shadow type="lp_shadow_Day"/></value><value name="year"><shadow type="lp_shadow_Year"/></value></block>
     <block type="lp_last_day_year"><value name="day"><shadow type="lp_shadow_Day"/></value><value name="year"><shadow type="lp_shadow_Year"/></value></block>
     <block type="lp_is_child_of"><value name="child"><shadow type="lp_shadow_Child"/></value><value name="parent"><shadow type="lp_shadow_Parent"/></value><value name="start"><shadow type="lp_shadow_Start"/></value><value name="end"><shadow type="lp_shadow_End"/></value></block>
     <block type="lp_is_stepparent_of"><value name="stepchild"><shadow type="lp_shadow_Stepchild"/></value><value name="stepparent"><shadow type="lp_shadow_Stepparent"/></value><value name="start"><shadow type="lp_shadow_Start"/></value><value name="end"><shadow type="lp_shadow_End"/></value></block>
+    <block type="lp_is_sum_of"><value name="sum"><shadow type="lp_shadow_Sum"/></value><value name="list"><shadow type="lp_shadow_List"/></value></block>
 </category>
 <category name="Variables" categorystyle="variable_category">
   <button text="Create variable" callbackKey="CREATE_VARIABLE"></button>
