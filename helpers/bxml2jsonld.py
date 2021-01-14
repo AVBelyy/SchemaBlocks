@@ -359,7 +359,7 @@ class Schema:
             var_types_str = xpath('b:field[@name="TYPES"]', cur_tc)[0].text
             var_ref_str = xpath('b:field[@name="REF"]', cur_tc)[0].text
             assert var_id in sbs.vars
-            var_types = [var_type.strip() for var_type in var_types_str.split(',')]
+            var_types = None if var_types_str is None else [var_type.strip() for var_type in var_types_str.split(',')]
             var_ref = None if var_ref_str is None else var_ref_str.strip()
             sbs.vars[var_id]['types'] = var_types
             sbs.vars[var_id]['ref'] = var_ref
