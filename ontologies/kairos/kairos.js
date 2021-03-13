@@ -335,6 +335,6 @@ function ontInit() {
             var dont_show_help_flag = document.getElementById('dont-show-help-on-startup').checked === true;
             localStorage.setItem('dont-show-help-on-startup', dont_show_help_flag);
         })
-        showHelp();
+        // showHelp();
     });
 }

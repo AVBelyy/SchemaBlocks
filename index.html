@@ -23,8 +23,19 @@
 
   <script>
     'use strict';
-    var ont_name = 'kairos';
-    var ont_pretty_name = 'KAIROS';
+    var ontologies = {
+      'kairos': 'KAIROS',
+      'legal_prolog': 'Legal Prolog',
+    };
+    if (location.hash) {
+      var ont_name = location.hash.substr(1);
+      if (!(ont_name in ontologies)) {
+        ont_name = 'kairos';
+      }
+    } else {
+      var ont_name = 'kairos';
+    }
+    var ont_pretty_name = ontologies[ont_name];
     var ont_did_init = false;
     var ont_is_loaded = false;
     var page_is_loaded = false;
@@ -65,6 +76,12 @@
 
     var workspace = null;
 
+    function changeOntology(new_ont_name) {
+      location.hash = '#' + new_ont_name;
+      location.reload(false);
+      return false;
+    }
+
     function onload() {
       page_is_loaded = true;
       pageInit();
@@ -75,7 +92,15 @@
         return;
       }
 
-      $('#navbar-ont-name').html(ont_pretty_name);
+      $('#navbar-ont-name-dropdown button').html(ont_pretty_name);
+      for (var key in ontologies) {
+        if (key !== ont_name) {
+          var value = ontologies[key];
+          var ont_menu_item = $('<a class="dropdown-item" onclick="changeOntology(\'' + key + '\')">' + value + '</a>');
+          $('#navbar-ont-name-dropdown div.dropdown-menu').append(ont_menu_item);
+        }
+      }
+      $('#navbar-ont-name-dropdown').show();
 
       // Append toolbox XML to the HTML body
       $("body").append($(toolbox_xml)).ready(function() {
@@ -238,10 +263,6 @@
       height: 55px;
     }
 
-    #navbar-ont-name {
-      color: grey;
-    }
-
     .navbar-nav > li{
       padding-left:10px;
       padding-right:10px;
@@ -259,13 +280,16 @@
 <body onload="onload()">
   <nav id="navbar" class="navbar navbar-expand" style="background-color: #e3f2fd">
     <span class="navbar-brand"><span style="color: #6CA362"><b>S</b></span>chema<span style="color: #637FA2"><b>B</b></span>locks</span>
-    <span id="navbar-ont-name"></span>
+    <div class="dropdown" style="display: none" id="navbar-ont-name-dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"></button>
+      <div class="dropdown-menu"></div>
+    </div>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item"><button class="btn btn-outline-success my-2 my-sm-0" onclick="toXml()"><span class="fas fa-download"></span> Save schema to file...</button></li>
       <li class="nav-item"><button class="btn btn-outline-success my-2 my-sm-0" onclick="fromXml()"><span class="fas fa-upload"></span> Load schema from file...</button></li>
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item"><button id="show-help" class="btn btn-outline-info my-2 my-sm-0" data-toggle="modal" data-target="#helpModal"><span class="fas fa-question-circle"></span> Help</button></li>
+      <li class="nav-item"><button id="show-help" class="btn btn-outline-info my-2 my-sm-0" style="display: none" data-toggle="modal" data-target="#helpModal"><span class="fas fa-question-circle"></span> Help</button></li>
     </ul>
   </nav>
 
@@ -281,7 +305,7 @@
           </button>
         </div>
         <div class="modal-body">
-          Here be helpful tips on how to get started.<br>
+          Here are helpful tips on how to get started.<br>
           <input type="checkbox" id="dont-show-help-on-startup">
           <label class="form-check-label" for="dont-show-help-on-startup">Don't show this again.</label>
         </div>
