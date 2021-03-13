@@ -77,6 +77,7 @@
     var workspace = null;
 
     function changeOntology(new_ont_name) {
+      $('#navbar-ont-name-dropdown button').attr('disabled', true);
       location.hash = '#' + new_ont_name;
       location.reload(false);
       return false;
