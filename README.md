@@ -1,13 +1,13 @@
-# schema-ui
+# SchemaBlocks
 
 <img src="schema-blocks.png" alt="example schema" width="500"/>
 
 [Scratch](https://scratch.mit.edu/)-like UI for KAIROS TA1 schema editing. Based on [Google Blockly](https://github.com/google/blockly).
 
-## Using schema-ui to produce TA1 schemas
+## Using SchemaBlocks to produce KAIROS schemas
 
-Step 1: set up `schema-ui` locally or visit:
-[http://www.cs.jhu.edu/~abel/schema-ui/kairos_playground.html](http://www.cs.jhu.edu/~abel/schema-ui/kairos_playground.html)
+Step 1: set up `SchemaBlocks` locally or visit:
+[https://sb.retloko.org/](https://sb.retloko.org/)
 
 Step 2: make a schema, e.g. starting from [this example](https://drive.google.com/drive/folders/1BEUp6PMoepLQs-yQu3_bhEdEY1dRCYVa)
 
