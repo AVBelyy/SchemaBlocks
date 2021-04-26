@@ -107,6 +107,13 @@ class Slot:
     def from_var(slot_role_id: str, slot_id: str, slot_name: str, slot_types: List, var_id: str, var: Dict):
         if slot_types is None:
             slot_types = []
+        if var['types'] is not None and len(var['types']) > 0:
+            # Narrow down the event slot types by the variable slot types
+            slot_types_var = [st for st in slot_types if st in var['types']]
+            if len(slot_types_var) == 0:
+                print(f'Warning: slot "{slot_id}" ({",".join(slot_types)}) has invalid type constraints based on variable \"{var["name"]}\" ({",".join(var["types"])}); the default types will be used for the slot')
+            else:
+                slot_types = slot_types_var
         slot_types = sorted(slot_types)
         slot_types = [f'kairos:Primitives/Entities/{st.upper()}' for st in slot_types]
         slot_ref = f'wiki:{var["ref"]}' if var['ref'] else None
@@ -220,7 +227,7 @@ class Schema:
             schema_comment = description
         else:
             schema_comment = " "
-            print("No description given!")
+            print('Warning: no description given!')
 
         # Get all defined variables
         vars_root = xpath('b:variables/b:variable', tree_root)
@@ -246,11 +253,18 @@ class Schema:
         for var_id, var in sbs.vars.items():
             # If the variable isn't participating in any slot, it can be ignored
             if len(var['steps_slots']) > 0:
+                # Narrow down a set of types for a variable, starting with ontology-specified types of the steps the variable participates in
                 valid_types = set.intersection(
                     *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
-                if len(valid_types) == 0:
+                if len(valid_types) > 0:
+                    # If the set of valid types is non-empty, constrain by the user-specified types
+                    if var['types'] is not None and len(var['types']) > 0:
+                        valid_types_user = valid_types & set(var['types'])
+                        if len(valid_types_user) > 0:
+                            valid_types = valid_types_user
+                else:
                     print(
-                        f'Warning: variable {var_id} has an invalid type based on the steps it participates in; the default types will be used for its slots')
+                        f'Warning: variable \"{var["name"]}\" has invalid type constraints (is "grayed out") based on the steps it participates in; the default types will be used for its slots')
                 sbs.vars[var_id]['valid_types'] = list(valid_types)
 
         # Fill out slots (added in SDF v0.8)
@@ -279,7 +293,7 @@ class Schema:
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
 
     @staticmethod
-    def _process_rels(cur_rel: lxml.etree.Element, steps: List[Step], schema_id: str,
+    def _process_rels(cur_rel: List[lxml.etree.Element], steps: List[Step], schema_id: str,
                       rel_pred_prefix="kairos:Primitives/Relations/"):
         if len(cur_rel) == 0:
             return []
@@ -296,10 +310,6 @@ class Schema:
             for slot in step.slots:
                 rv = slot.refvar
                 id_name = slot.id
-                # If this id is already in here but with a different name, let us know. NOAH: Don't know why this is here, refvar will definitly point to different slot ids!
-                # if rv in refvar_id and refvar_id[rv] != id_name:
-                #    print(f'Entity reference {rv} has multiple slots names, double check your schema!')
-
                 refvar_id[rv] = id_name
 
         for relation in xpath('.//b:block[starts-with(@type,"kairos_relation_Rel")]', cur_rel):
@@ -398,5 +408,3 @@ if __name__ == '__main__':
 
     with open(jsonld_path, 'w') as fout:
         json.dump(out_jsonld, fout, indent=2)
-
-    print('Success!')
