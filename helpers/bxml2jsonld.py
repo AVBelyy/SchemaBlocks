@@ -77,7 +77,8 @@ class SchemaBuilderState:
             for next_step in next_steps:
                 if order_type == 'before_after':
                     order_id = self.schema_id + "/Order/BeforeAfter/" + str(len(self.order))
-                    self.order.append(collections.OrderedDict({'@id':order_id, 'before': prev_step.id, 'after': next_step.id}))
+                    self.order.append(
+                        collections.OrderedDict({'@id': order_id, 'before': prev_step.id, 'after': next_step.id}))
 
 
 class Slot:
@@ -173,6 +174,7 @@ class Step:
 
         return Step(step_type_id, step_id, step_name, step_comment, step_slots)
 
+
 class Schema:
     def __init__(self, id: str, name: str, descr: str, steps: List[Step], rels: List,
                  order: List[collections.OrderedDict], slots: List[collections.OrderedDict]):
@@ -209,7 +211,8 @@ class Schema:
         assert len(schema_block) == 1
         schema_block = schema_block[0]
         schema_name = xpath('b:field[@name="NAME"]', schema_block)[0].text
-        schema_id = SchemaBuilderState.get_id(schema_name, f'{vendor_id}:Schemas')  #Will contain the prefix for jhu:Schemas
+        schema_id = SchemaBuilderState.get_id(schema_name,
+                                              f'{vendor_id}:Schemas')  # Will contain the prefix for jhu:Schemas
         schema_comment_block = xpath('b:comment', schema_block)
         if len(schema_comment_block) == 1:
             schema_comment = schema_comment_block[0].text
@@ -246,9 +249,9 @@ class Schema:
                 valid_types = set.intersection(
                     *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
                 if len(valid_types) == 0:
-                    print(f'Warning: variable {var_id} has an invalid type based on the steps it participates in; the default types will be used for its slots')
+                    print(
+                        f'Warning: variable {var_id} has an invalid type based on the steps it participates in; the default types will be used for its slots')
                 sbs.vars[var_id]['valid_types'] = list(valid_types)
-
 
         # Fill out slots (added in SDF v0.8)
         slots = []
@@ -276,7 +279,8 @@ class Schema:
         return Schema(schema_id, schema_name, schema_comment, steps, rels, sbs.order, slots)
 
     @staticmethod
-    def _process_rels(cur_rel: lxml.etree.Element, steps: List[Step], schema_id: str, rel_pred_prefix = "kairos:Primitives/Relations/"):
+    def _process_rels(cur_rel: lxml.etree.Element, steps: List[Step], schema_id: str,
+                      rel_pred_prefix="kairos:Primitives/Relations/"):
         if len(cur_rel) == 0:
             return []
         else:
@@ -285,15 +289,15 @@ class Schema:
 
         prefix_id = schema_id + '/Relations/'
 
-        relation_subjs = {} #mapping from relation subjects to a list of (relation name, relation object) tuples
-        #first get entity names + references
-        refvar_id = {} #map refvar to id
+        relation_subjs = {}  # mapping from relation subjects to a list of (relation name, relation object) tuples
+        # first get entity names + references
+        refvar_id = {}  # map refvar to id
         for step in steps:
             for slot in step.slots:
                 rv = slot.refvar
                 id_name = slot.id
-                #If this id is already in here but with a different name, let us know. NOAH: Don't know why this is here, refvar will definitly point to different slot ids!
-                #if rv in refvar_id and refvar_id[rv] != id_name:
+                # If this id is already in here but with a different name, let us know. NOAH: Don't know why this is here, refvar will definitly point to different slot ids!
+                # if rv in refvar_id and refvar_id[rv] != id_name:
                 #    print(f'Entity reference {rv} has multiple slots names, double check your schema!')
 
                 refvar_id[rv] = id_name
@@ -313,18 +317,19 @@ class Schema:
             else:
                 relation_subjs[subj_name].append((rel_name, rel_pred, obj_name))
 
-        #convert relation_subjs so it can be immediatly converted to json
+        # convert relation_subjs so it can be immediatly converted to json
         rels = []
-        subjectnum=0 #Id for a relation subject
-        for subj, rel_obj in relation_subjs.items(): #subject_name, list of tuples
+        subjectnum = 0  # Id for a relation subject
+        for subj, rel_obj in relation_subjs.items():  # subject_name, list of tuples
             relations_for_subj = []
-            objectnum=0 #Id that uniquly ids all relations with this given subject
+            objectnum = 0  # Id that uniquly ids all relations with this given subject
             for rel_name, rel_pred, obj_name in rel_obj:
                 rel_id = prefix_id + str(subjectnum) + '/' + str(objectnum) + '/' + rel_name
-                relations_for_subj.append({"@id":rel_id, "name":rel_name, "relationPredicate":rel_pred, "relationObject":obj_name})
-                objectnum +=1
-            rels.append({"relationSubject":subj, "relations":relations_for_subj})
-            subjectnum+=1
+                relations_for_subj.append(
+                    {"@id": rel_id, "name": rel_name, "relationPredicate": rel_pred, "relationObject": obj_name})
+                objectnum += 1
+            rels.append({"relationSubject": subj, "relations": relations_for_subj})
+            subjectnum += 1
 
         return rels
 
