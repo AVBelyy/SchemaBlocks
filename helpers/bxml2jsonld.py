@@ -253,11 +253,11 @@ class Schema:
         for var_id, var in sbs.vars.items():
             # If the variable isn't participating in any slot, it can be ignored
             if len(var['steps_slots']) > 0:
-                # Narrow down a set of types for a variable, starting with ontology-specified types of the steps the variable participates in
+                # Narrow down a set of types for a variable, starting with ontology-specified types of the slots the variable participates in
                 valid_types = set.intersection(
                     *[set(events_args[step_slot[0]][step_slot[1]]) for step_slot in var['steps_slots']])
                 if len(valid_types) > 0:
-                    # If the set of valid types is non-empty, constrain by the user-specified types
+                    # If the set of valid (slot) types is non-empty, constrain by the user-specified variable types
                     if var['types'] is not None and len(var['types']) > 0:
                         valid_types_user = valid_types & set(var['types'])
                         if len(valid_types_user) > 0:
