@@ -9,7 +9,7 @@
 Step 1: set up `SchemaBlocks` locally or visit:
 [https://sb.retloko.org/](https://sb.retloko.org/)
 
-Step 2: make a schema, e.g. starting from [this example](https://drive.google.com/drive/folders/1BEUp6PMoepLQs-yQu3_bhEdEY1dRCYVa)
+Step 2: make a schema, e.g. starting from [this example](https://drive.google.com/file/d/1FcbDBBOFBRsFtpgLmAE_PrDwrIsLK3Gs/view?usp=sharing)
 
 Step 3: "export to XML" your schema and save it locally
 
@@ -33,3 +33,14 @@ cd helpers
 pip install -r requirements.txt
 python bxml2jsonld.py [xmlpath] [jsonldpath]
 ```
+
+## Citation
+
+If you use SchemaBlocks please cite it as follows.
+
+    @article{weber2021schema,
+      title={Schema Curation via Causal Association Rule Mining},
+      author={Weber, Noah and Belyy, Anton and Holzenberger, Nils and Rudinger, Rachel and Van Durme, Benjamin},
+      journal={arXiv preprint arXiv:2104.08811},
+      year={2021}
+    }
