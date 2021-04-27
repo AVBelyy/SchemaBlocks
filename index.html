@@ -40,6 +40,7 @@
     var ont_is_loaded = false;
     var page_is_loaded = false;
     var toolbox_is_loaded = false;
+    var loaded_schema_name = null;
 
     function loadJS(path_to_js, callback) {
       var script = document.createElement('script');
@@ -234,6 +235,9 @@
         if (el.files.length) {
           var file = el.files[0];
           var reader = new FileReader();
+          if (file.name) {
+            loaded_schema_name = file.name.replace(/\.[^/.]+$/, '');
+          }
           reader.onload = (function (theFile) {
             return function (e) {
               var contents = e.target.result;

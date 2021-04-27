@@ -185,7 +185,10 @@ function toXml() {
     var contents = Blockly.Xml.domToPrettyText(xml);
     var cur_schema_block = workspace.getBlockById('kairos_schema');
     var schema_name;
-    if (cur_schema_block) {
+
+    if (loaded_schema_name) {
+        schema_name = loaded_schema_name;
+    } else if (cur_schema_block) {
         schema_name = cur_schema_block.getFieldValue('NAME') || 'schema';
     } else {
         schema_name = 'schema';
