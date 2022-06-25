@@ -1,8 +1,4 @@
 .ipynb_checkpoints/
 .idea/
 venv/
-helpers/kairos_events.pkl
-kairos_ontology.js
-kairos_blocks.xml
-kairos_blocks.js
 .DS_Store
