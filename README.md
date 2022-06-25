@@ -9,6 +9,13 @@
 Step 1: set up `SchemaBlocks` locally or visit:
 [https://sb.retloko.org/](https://sb.retloko.org/)
 
+```bash
+# Tip: to set up SchemaBlocks locally, use the following command:
+git clone --recurse-submodules https://github.com/AVBelyy/SchemaBlocks
+
+# Then open SchemaBlocks/index.html in the browser to start working with schemas!
+```
+
 Step 2: make a schema, e.g. starting from [this example](https://drive.google.com/file/d/1FcbDBBOFBRsFtpgLmAE_PrDwrIsLK3Gs/view?usp=sharing)
 
 Step 3: "export to XML" your schema and save it locally
